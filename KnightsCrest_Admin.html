@@ -1,150 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-.column {
-  float: left;
-  width: 50%;
-  padding: 10px;
-}
-
-.banner {
-  background-color: black;
-
-}
-
-.ucf_text {
-    line-height: 1.5;
-    font-family: myGotham;
-    color: #ffc904;
-    font-size: small;
-    font-kerning: initial;
-}
-
-.ucf_banner {
-    padding: 2px;
-    max-width: 100%;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;   
-}
-
-#page_title {
-    padding-bottom: 15px;
-    border-bottom: 1px dotted #333;
-    font-family: "Helvetica Neue";
-    margin-left: 80px;
-}
-
-h1 {
-    line-height: 40px;
-    margin: 0;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: 30px;
-    font-weight: normal;
-}
-
-.column {
-  background-color: #fef1bc;
-  width: 400px;
-  box-shadow: 0 8px 6px -6px grey;
-  padding: 15px;
-  margin-left: 80px;
-  margin-top:10px;
-  display: block;
-  font-family: "Arial";
-  font-size: 14px;
-  font-weight: bold;
-  border-radius: 5px;
-  margin-bottom: 20px;
-}
-
-.box {
-  text-align: center;
-  font-weight: normal;
-}
-
-
-#user {
-  background-color: white;
-  border: 1px solids lightgray;
-  height: 30px;
-  font-weight: normal;
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.3;
-  border-radius: 6px;
-  color: #555;
-  margin-top: 10px;
-}
-
-#password {
-  background-color: white;
-  border: 1px solids lightgray;
-  height: 30px;
-  font-weight: normal;
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.3;
-  border-radius: 6px;
-  color: #555;
-  margin-top: 10px;
-  }
-
-  .policy {
-      text-align: center;
-      font-family: Arial;
-      font-size: small;
-  }
-</style>
+  <meta charset="UTF-8">
+  <link href="stylesheet.css" rel="stylesheet">
 </head>
 <body>
 
-    <div class="banner">
-        <div class="ucf_banner">
-            <img src="images/pegasuslogo.jpeg" alt="pegasus logo"
-            width="45"
-            height="45">
-            <div class="ucf_text">
-            <p>UNIVERSITY OF CENTRAL FLORIDA</p>
-            </div>
-        </div>
-    </div>
+  <div class="banner">
+      <div class="ucf_banner">
+          <img src="images/pegasuslogo.jpeg" alt="pegasus logo"
+          width="45"
+          height="45">
+          <div class="ucf_text">
+          <p>UNIVERSITY OF CENTRAL FLORIDA</p>
+          </div>
+      </div>
+  </div>
 
 <div id="page_title">
-                    <h1>UCF Federated Identity</h1>
-          </div>
-          
+                  <h1>UCF Federated Identity</h1>
+        </div>
+        
 <div class = "row">
 <div class = "column">
-   <div id = "login">
+ <div id = "login">
 
 Account <br>
 <div id = "user"> Username: NID or DTC-Atlas ID </div>
 <br>
 Password
 <div id = "password">Password</div>
-  </div>
-  </div>
+</div>
+</div>
 
 <br>
-                  <p class="policy">
-                  By signing on, you agree to the terms of the
-                  <br>
-                  <strong><a target="_blank" href="http://policies.ucf.edu/">UCF Policies &amp; Procedures</a></strong>.</p>
-                  
-  <div class = "column">
-      <div id = "box">
-      <h3>my.ucf.edu</h3>
-      <p>You have asked to login to my.ucf.edu </p>
-      </div>
-  </div>
+                <p class="policy">
+                By signing on, you agree to the terms of the
+                <br>
+                <strong><a target="_blank" href="http://policies.ucf.edu/">UCF Policies &amp; Procedures</a></strong>.</p>
+                
+<div class = "column">
+    <div id = "box">
+    <h3>my.ucf.edu</h3>
+    <p>You have asked to login to my.ucf.edu </p>
+    </div>
+</div>
 </div>
 
 </body>
