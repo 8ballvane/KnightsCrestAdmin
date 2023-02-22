@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <script src="process_form.js"></script>
+<head>  
+  <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-database.js"></script>
+  <script src="scripts/validateAdd.js"></script>
+  <script src="scripts/addDatabase.js"></script>
 <style>
   body {
     margin:0; 
@@ -181,36 +184,39 @@ input[type=submit] {
       <div class = "main">
      
 <div class="row">
-  <form action="process_form.js" method="post" name="myform">
+  <form action="#" method="post" name="myform">
     <fieldset>
-    <div class="column">
-    <label for="fname">First name:</label><br>
-    <input type="text" id="fname" name="fname" value="Ima"><br><br>
+      <div class="column">
+      <label for="fname">First name:</label><br>
+      <input type="text" id="fname" name="fname" value="Ima"><br><br>
 
-    <label for="id">UCF ID:</label><br>
-    <input type="text" id="id" name="id" value="1234567"><br><br>
+      <label for="id">UCF ID:</label><br>
+      <input type="text" id="id" name="id" value="1234567"><br><br>
     
-    <label for="cash">Knights Cash Account:</label><br>
-    <input type="text" id="cash" name="cash" value="600912347596"><br><br>
+      <label for="cash">Knights Cash Account:</label><br>
+      <input type="text" id="cash" name="cash" value="600912347596"><br><br>
 
-    <label for="birthday">Date of Birth:</label><br>
-    <input type="text" id="birthday" name="birthday" value="01/01/2001"><br><br>
+      <label for="birthday">Date of Birth:</label><br>
+      <input type="text" id="birthday" name="birthday" value="01/01/2001"><br><br>
 
-    <label for="campus">Campus:</label><br>
-    <input type="text" id="campus" name="campus" value="Downtown"><br>
-    </div>
-    <div class="column">
-    <label for="lname">Last name:</label><br>
-    <input type="text" id="lname" name="lname" value="Knight"><br><br>
+      <label for="campus">Campus:</label><br>
+      <input type="text" id="campus" name="campus" value="Downtown"><br>
+      </div>
+      <div class="column">
+      <label for="lname">Last name:</label><br>
+      <input type="text" id="lname" name="lname" value="Knight"><br><br>
 
-    <label for="nid">Student NID:</label><br>
-    <input type="text" id="nid" name="nid" value="ik123456"><br><br>
+      <label for="nid">Student NID:</label><br>
+      <input type="text" id="nid" name="nid" value="ik123456"><br><br>
 
-    <label for="library">Library Account:</label><br>
-    <input type="text" id="library" name="library" value="2210347983785"><br><br>
+      <label for="library">Library Account:</label><br>
+      <input type="text" id="library" name="library" value="2210347983785"><br><br>
 
-    <label for="expiration">Expiration Date:</label><br>
-    <input type="text" id="expiration" name="expiration" value="05/05/2023"><br>
+      <label for="expiration">Expiration Date:</label><br>
+      <input type="text" id="expiration" name="expiration" value="05/05/2023"><br>
+      
+      <label for="profile">Profile picture:</label><br>
+      <input type="file" id="profile" accept="image/*">
 
     <h3>Caste</h3>
      <input type="radio" id="student" name="caste" value="Student">
