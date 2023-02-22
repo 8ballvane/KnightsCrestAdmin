@@ -9,6 +9,98 @@
         <script src="update.js"></script>
     </head>
     <body>
+        <!--Add UCF Banner-->
+        <div class="banner">
+            <div class="ucf_banner">
+                <div class="ucf_logos">
+                  <img src="admin/User Search/The tab crop.png" alt="logo" width="50">
+                <img src="admin/User Search/KNIGHTS CREST.png" alt="logo" height = "32px">
+                </div>
+        
+                <div class = "top_menu">
+                  <a href = "KnightsCrest_AdminUserSettings.html">
+                  <img src = "Admin/Dashboard/Icon material-settings.png" alt="settings" width="25"> 
+                  </a>/n
+                  
+                  <a href = "KnightsCrest_Admin.html">
+                  <img src = "Admin/Dashboard/Icon ionic-md-exit.png" alt="settings" width="24">
+                  </a>
+                </div>
+            </div>
+        </div>
+
+        <!--Add Sidebar-->
+        <div class="sidenav">
+            <img id = "profile_pic" src="admin/Add New User/Component 31. 3.png" alt="Profile Pic">
+          
+              <h2 id = "sidebar_title">Functions</h2>
+              <a href = "KnightsCrest_AdminHome.html">
+              <button id = "button">
+                <img src="admin/User Search/Search Records Button.png" alt="Search Records">
+             </button>
+              </a>
+          
+             <a href = "KnightsCrest_AdminAdd.html">
+             <button id = "button">
+              <img src="admin/User Search/Add Record Button.png" alt="Add Records">
+           </button>
+             </a>
+           </div>
+
+           <div id = title>
+            <h1>RESULTS</h1>  
+          </div>
+
+        <div class = "main">
+
+      <!-- Search form -->
+      <div class="row">
+        <form action="process_form.js" method="post" name="myform">
+          <fieldset>
+        <div class="column">
+            <label for="firstName">First name:</label><br>
+        <input type="text" id="firstName" name="firstName" placeholder="First Name"><br><br>
+    
+        <label for="ucfid">UCF ID:</label><br>
+        <input type="text" id="ucfid" name="ucfid"><br><br>
+        
+        <label for="cash">Knights Cash Account:</label><br>
+        <input type="text" id="cash" name="cash"><br><br>
+    
+        <label for="dob">Date of Birth:</label><br>
+        <input type="text" id="dob" name="dob" placeholder="DD/MM/YYYY"><br><br>
+
+        <label for="campus">Campus:</label><br>
+        <input type="text" id="campus" name="campus" placeholder="Downtown"><br><br>
+
+        <input type="submit"  id="update" name="submit" value="Update">
+        <input type="submit"  id="delete" name="submit" value="Delete">
+
+        </div>
+
+        <div class="column">
+        <label for="lastName">Last name:</label><br>
+        <input type="text" id="lastName" name="lastName" placeholder="Last Name"><br><br>
+    
+        <label for="nid">Student NID:</label><br>
+        <input type="text" id="nid" name="nid" placeholder="ik123456"><br><br>
+    
+        <label for="library">Library Number:</label><br>
+        <input type="text" id="library" name="library" placeholder="2210347983785"><br><br>
+
+        <label for="expiration">Expiration Date:</label><br>
+        <input type="text" id="expiration" name="expiration" placeholder="05/23/2025"><br><br>
+
+        <label for="caste">Caste:</label><br>
+        <input type="text" id="caste" name="caste" placeholder="Student"><br><br>
+
+        </div>
+
+        </div>
+
+      </fieldset>
+      </form> 
+
         <div>
             <p id="firstName"></p>
             <p id="lastName"></p>
@@ -18,6 +110,8 @@
             <p id="cash"></p>
             <p id="library"></p>
             <p id="dob"></p>
+            <p id="expiration"></p>
+            <p id="caste"></p>
         </div>
     </body>
 </html>

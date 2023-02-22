@@ -38,14 +38,7 @@ const firebaseConfig = {
       var cashNumber = document.querySelector('#cash');
       var libraryNumber = document.querySelector('#library');
       var dob = document.querySelector('#dob');
-      firstName.textContent = userData.first_name;
-      lastName.textContent = userData.last_name;
-      nid.textContent = userData.student_nid;
-      ucfid.textContent = userData.ucf_id;
-      campus.textContent = userData.campus;
-      cashNumber.textContent = userData.knights_cash_account;
-      libraryNumber.textContent = userData.library_account;
-      dob.textContent = userData.date_of_birth;
+    
     });
   }
   
