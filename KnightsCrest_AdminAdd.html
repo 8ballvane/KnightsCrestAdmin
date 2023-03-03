@@ -1,10 +1,90 @@
 <!DOCTYPE html>
 <html>
-<head>  
-  <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-database.js"></script>
-  <script src="scripts/validateAdd.js"></script>
-  <script src="scripts/addDatabase.js"></script>
+<head> 
+  <script src ="scripts/firebase.js"></script> 
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js';
+    import { getDatabase, ref as databaseRef, set } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js';
+    import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js';
+    
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const storage = getStorage(app);
+
+    // Container variables
+    let fname;
+    let lname;
+    let id;
+    let nid;
+    let cash;
+    let library;
+    let birthday;
+    let expiration;
+    let campus;
+    let profile; 
+    let profileURL; 
+    let caste;
+
+    function init() {    
+    // Listen for the form submit event
+   document.myform.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    // Get the form elements
+    fname = document.getElementById("fname");
+    lname = document.getElementById("lname");
+    id = document.getElementById("id");
+    nid = document.getElementById("nid");
+    cash = document.getElementById("cash");
+    library = document.getElementById("library");
+    birthday = document.getElementById("birthday");
+    expiration = document.getElementById("expiration");
+    campus = document.getElementById("campus");
+    profile = document.getElementById("profile").files[0];
+    caste = document.querySelector('input[name="caste"]:checked').value;    
+    
+    const uniqueId = lname.value + "-" + fname.value + Date.now().toString();
+    const storageRef = ref(storage, uniqueId);
+    const metadata = {
+      contentType: profile.type
+    };
+    
+    uploadBytes(storageRef, profile, metadata).then((snapshot) => {
+      // get the download url after the file has been uploaded
+      getDownloadURL(snapshot.ref).then((downloadURL) => {
+        profileURL = downloadURL;
+        set(databaseRef(database, "users/"+uniqueId),{  first_name: fname.value,
+        last_name: lname.value,
+        ucf_id: id.value,
+        nid: nid.value,
+        knights_cash_account: cash.value,
+        library_account: library.value,
+        date_of_birth: birthday.value,
+        expiration_date: expiration.value,
+        caste: caste,
+        campus: campus.value,
+        profile_picture: profileURL
+        }).then(()=>{
+        // Show a success message to the user
+        alert("Record added successfully!");
+        // Reset the form fields
+        fname.value = "";
+        lname.value = "";
+        id.value = "";
+        nid.value = "";
+        cash.value = "";
+        library.value = "";
+        birthday.value = "";
+        profile.value = "";
+      }).catch((error) => {
+      console.log(error);
+      });
+    });
+  });
+})}
+window.addEventListener("load", init, false);
+  </script>
 <style>
   body {
     margin:0; 
@@ -200,7 +280,13 @@ input[type=submit] {
       <input type="text" id="birthday" name="birthday" value="01/01/2001"><br><br>
 
       <label for="campus">Campus:</label><br>
-      <input type="text" id="campus" name="campus" value="Downtown"><br>
+      <select id="campus">
+        <option value="" disabled selected>Select a campus</option>
+        <option value="Main Campus">UCF Main Campus</option>
+        <option value="Downtown">UCF Downtown</option>
+        <option value="Online">UCF Online</option>
+        <option value="Rosen">Rosen</option>
+      </select><br>
       </div>
       <div class="column">
       <label for="lname">Last name:</label><br>

@@ -78,7 +78,7 @@ form.addEventListener('submit', function(event) {
         var ucfidLink = document.createElement('a');
         firstNameCell.appendChild(document.createTextNode(result.first_name));
         lastNameCell.appendChild(document.createTextNode(result.last_name));
-        nidCell.appendChild(document.createTextNode(result.student_nid));
+        nidCell.appendChild(document.createTextNode(result.nid));
         ucfidLink.href = "user.html?ucfid=" + encodeURIComponent(result.ucf_id);
         ucfidLink.appendChild(document.createTextNode(result.ucf_id));
         ucfidCell.appendChild(ucfidLink);
