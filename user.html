@@ -71,7 +71,13 @@
         <input type="text" id="dob" name="dob" placeholder="DD/MM/YYYY"><br><br>
 
         <label for="campus">Campus:</label><br>
-        <input type="text" id="campus" name="campus" placeholder="Downtown"><br><br>
+        <select id="campus">
+          <option value="" disabled selected>Select a campus</option>
+          <option value="Main Campus">UCF Main Campus</option>
+          <option value="Downtown">UCF Downtown</option>
+          <option value="Online">UCF Online</option>
+          <option value="Rosen">Rosen</option>
+        </select><br><br>
 
         <input type="submit"  id="update" onclick="update()" name="submit" value="Update">
         <input type="submit"  id="delete" name="submit" value="Delete">
