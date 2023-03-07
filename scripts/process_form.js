@@ -17,7 +17,21 @@ const firebaseConfig = {
   var database = firebase.database();
 
   function init() {
+    document.myform.addEventListener("load", display, true);
     document.myform.addEventListener("submit", update, false);
+  }
+
+  function display() {
+    
+      // Display the user's data on the page
+      var firstName = document.querySelector('#firstName');
+      var lastName = document.querySelector('#lastName');
+      var nid = document.querySelector('#nid');
+      var ucfid = document.querySelector('#ucfid');
+      var campus = document.querySelector('#campus');
+      var cashNumber = document.querySelector('#cash');
+      var libraryNumber = document.querySelector('#library');
+      var dob = document.querySelector('#dob');
   }
 
   function update() {
