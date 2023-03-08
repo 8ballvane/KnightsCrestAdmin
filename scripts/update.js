@@ -30,14 +30,7 @@ const firebaseConfig = {
       var userData = snapshot.val()[ucfid];
       
       // Display the user's data on the page
-      var firstName = document.querySelector('#firstName');
-      var lastName = document.querySelector('#lastName');
-      var nid = document.querySelector('#nid');
-      var ucfid = document.querySelector('#ucfid');
-      var campus = document.querySelector('#campus');
-      var cashNumber = document.querySelector('#cash');
-      var libraryNumber = document.querySelector('#library');
-      var dob = document.querySelector('#dob');
+    console.log (userRef)
     
     });
   }
