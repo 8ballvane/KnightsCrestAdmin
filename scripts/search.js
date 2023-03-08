@@ -1,57 +1,57 @@
 // Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyBI4OxpPSYzATmb7qu21_4GgkW4h9-KXOY",
-    authDomain: "knightscrest.firebaseapp.com",
-    projectId: "knightscrest",
-    storageBucket: "knightscrest.appspot.com",
-    messagingSenderId: "595850728642",
-    appId: "1:595850728642:web:7885d4b5387a97b91d975b",
-    measurementId: "G-M4V6P20S2R",
-    databaseURL: "https://knightscrest-default-rtdb.firebaseio.com/"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyBI4OxpPSYzATmb7qu21_4GgkW4h9-KXOY",
+  authDomain: "knightscrest.firebaseapp.com",
+  projectId: "knightscrest",
+  storageBucket: "knightscrest.appspot.com",
+  messagingSenderId: "595850728642",
+  appId: "1:595850728642:web:7885d4b5387a97b91d975b",
+  measurementId: "G-M4V6P20S2R",
+  databaseURL: "https://knightscrest-default-rtdb.firebaseio.com/"
+};
 
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
-  // Get a reference to the database service
-  var database = firebase.database();
+// Get a reference to the database service
+var database = firebase.database();
 
 
 
 function init() {
-  
+
 var form = document.querySelector('form[name="myform"]');
 var table = document.querySelector('#resultsTable tbody');
 
 form.addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent the default form submission
+event.preventDefault(); // Prevent the default form submission
 
-  // if (resultsTable.style.display === "block"){
-  //   resultsTable.style.display === "none";
-  // } else {
-  //   resultsTable.style.display === "block";
-  //   }
-  
-  // Get the form values
-  var firstName = document.querySelector('#fname').value;
-  var lastName = document.querySelector('#lname').value;
-  var nid = document.querySelector('#nid').value;
-  var ucfid = document.querySelector('#id').value;
-  var campus = document.querySelector('#campus').value;
-  var cashNumber = document.querySelector('#cash').value;
-  var libraryNumber = document.querySelector('#library').value;
-  var dob = document.querySelector('#birthday').value;
+// if (resultsTable.style.display === "block"){
+//   resultsTable.style.display === "none";
+// } else {
+//   resultsTable.style.display === "block";
+//   }
 
-    // Set the starting point for the query based on the search parameters
-    var query = database.ref('users');
+// Get the form values
+var firstName = document.querySelector('#fname').value;
+var lastName = document.querySelector('#lname').value;
+var nid = document.querySelector('#nid').value;
+var ucfid = document.querySelector('#id').value;
+var campus = document.querySelector('#campus').value;
+var cashNumber = document.querySelector('#cash').value;
+var libraryNumber = document.querySelector('#library').value;
+var dob = document.querySelector('#birthday').value;
 
-    // Filter the results based on the search criteria
-    var results = [];
+  // Set the starting point for the query based on the search parameters
+  var query = database.ref('users');
 
-    query.once('value', 
-      function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
-      var childData = childSnapshot.val();
+  // Filter the results based on the search criteria
+  var results = [];
+
+  query.once('value', 
+    function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+    var childData = childSnapshot.val();
 
       if(
       (!firstName || childData.first_name === firstName) && 
@@ -84,8 +84,8 @@ form.addEventListener('submit', function(event) {
         var ucfidLink = document.createElement('a');
         firstNameCell.appendChild(document.createTextNode(result.first_name));
         lastNameCell.appendChild(document.createTextNode(result.last_name));
-        nidCell.appendChild(document.createTextNode(result.nid));
-        ucfidLink.href = "user.html?ucfid=" + encodeURIComponent(result.nid);
+        nidCell.appendChild(document.createTextNode(result.student_nid));
+        ucfidLink.href = "user.html?ucfid=" + encodeURIComponent(result.ucf_id);
         ucfidLink.appendChild(document.createTextNode(result.ucf_id));
         ucfidCell.appendChild(ucfidLink);
         campusCell.appendChild(document.createTextNode(result.campus));
@@ -107,14 +107,14 @@ form.addEventListener('submit', function(event) {
       // Check if a table row was clicked
       if (event.target.nodeName === 'td') {
       // Get the UCF ID of the user from the table cell
-      let ucfid = event.target.parentNode.querySelector('td:nth-child(4)').textContent;
+      var ucfid = event.target.parentNode.querySelector('td:nth-child(4)').textContent;
       // Redirect to the user's data page with the UCF ID as a query parameter
       window.location.href = 'user.html?ucfid=' + ucfid;
   }
 });
 
-    });
   });
+});
 
 }
 window.addEventListener("load", init, false);
