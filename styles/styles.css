@@ -173,3 +173,8 @@ fieldset{
   padding: 57px;
   font-size: small;
 }
+
+.resultstable, thead, tr, th::after{
+  padding: 57px;
+  font-size: small;
+}
