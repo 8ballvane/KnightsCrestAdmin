@@ -2,6 +2,7 @@ body{
     margin: 0;
   }
 
+
 .banner {
     background-color: black;
   
@@ -167,4 +168,13 @@ fieldset{
   border-radius: 5px;
   border: none;
   padding: 10px;
+}
+.resultstable, thead, tr, th{
+  padding: 57px;
+  font-size: small;
+}
+
+.resultstable, thead, tr, th::after{
+  padding: 57px;
+  font-size: small;
 }
