@@ -171,7 +171,6 @@ fieldset{
 }
 
 .resultsTable, thead, tr, th, td{
-  display: block;
   padding-left: 40%;
   padding-top: 10px;
   font-size: small;
