@@ -26,6 +26,12 @@ var table = document.querySelector('#resultsTable tbody');
 form.addEventListener('submit', function(event) {
   event.preventDefault(); // Prevent the default form submission
 
+  // if (resultsTable.style.display === "block"){
+  //   resultsTable.style.display === "none";
+  // } else {
+  //   resultsTable.style.display === "block";
+  //   }
+  
   // Get the form values
   var firstName = document.querySelector('#fname').value;
   var lastName = document.querySelector('#lname').value;
@@ -78,8 +84,8 @@ form.addEventListener('submit', function(event) {
         var ucfidLink = document.createElement('a');
         firstNameCell.appendChild(document.createTextNode(result.first_name));
         lastNameCell.appendChild(document.createTextNode(result.last_name));
-        nidCell.appendChild(document.createTextNode(result.student_nid));
-        ucfidLink.href = "user.html?ucfid=" + encodeURIComponent(result.ucf_id);
+        nidCell.appendChild(document.createTextNode(result.nid));
+        ucfidLink.href = "user.html?ucfid=" + encodeURIComponent(result.nid);
         ucfidLink.appendChild(document.createTextNode(result.ucf_id));
         ucfidCell.appendChild(ucfidLink);
         campusCell.appendChild(document.createTextNode(result.campus));
@@ -101,7 +107,7 @@ form.addEventListener('submit', function(event) {
       // Check if a table row was clicked
       if (event.target.nodeName === 'td') {
       // Get the UCF ID of the user from the table cell
-      var ucfid = event.target.parentNode.querySelector('td:nth-child(4)').textContent;
+      let ucfid = event.target.parentNode.querySelector('td:nth-child(4)').textContent;
       // Redirect to the user's data page with the UCF ID as a query parameter
       window.location.href = 'user.html?ucfid=' + ucfid;
   }
