@@ -17,21 +17,42 @@ const firebaseConfig = {
   var database = firebase.database();
 
   function init() {
-    document.myform.addEventListener("load", display, true);
+    document.myform.addEventListener("load", display, false);
     document.myform.addEventListener("submit", update, false);
+
+    var ucfid = decodeURIComponent(window.location.search.substr(1)).split("=")[1];
+    var userRef = database.ref('users').orderByChild("ucf_id").equalTo(ucfid);
+    userRef.once('value', function(snapshot) {
+    if (snapshot.exists()) {
+    var userData = snapshot.val()[ucfid];
+    var firstName = snapshot.val()[first_name]
+    var lastName = snapshot.val()[last_name]
+
+  }
+});
   }
 
   function display() {
     
       // Display the user's data on the page
-      var firstName = document.querySelector('#firstName');
-      var lastName = document.querySelector('#lastName');
-      var nid = document.querySelector('#nid');
-      var ucfid = document.querySelector('#ucfid');
-      var campus = document.querySelector('#campus');
-      var cashNumber = document.querySelector('#cash');
-      var libraryNumber = document.querySelector('#library');
-      var dob = document.querySelector('#dob');
+      // var firstName = document.querySelector('#firstName');
+      // var lastName = document.querySelector('#lastName');
+      // var nid = document.querySelector('#nid');
+      // var ucfid = document.querySelector('#ucfid');
+      // var campus = document.querySelector('#campus');
+      // var cashNumber = document.querySelector('#cash');
+      // var libraryNumber = document.querySelector('#library');
+    // var dob = document.querySelector('#dob');
+
+    // Get the form values
+      var firstName = document.querySelector('#firstName').value;
+      var lastName = document.querySelector('#lastName').value;
+      var nid = document.querySelector('#nid').value;
+      var ucfid = document.querySelector('#id').value;
+      var campus = document.querySelector('#campus').value;
+      var cashNumber = document.querySelector('#cash').value;
+      var libraryNumber = document.querySelector('#library').value;
+      var dob = document.querySelector('#birthday').value;
   }
 
   function update() {
@@ -59,5 +80,5 @@ const firebaseConfig = {
     
     });
   }
-  
+
   window.addEventListener("load", init, false);
