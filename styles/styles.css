@@ -169,12 +169,25 @@ fieldset{
   border: none;
   padding: 10px;
 }
-/* .resultstable, thead, tr, th{
-  padding: 57px;
+.resultsTable, thead, tr, th, td{
+  padding-left: 40%;
+  padding-top: 10px;
   font-size: small;
 }
 
-.resultstable, thead, tr, th::after{
+.thead, tr, th, td{
+  padding: -50%;
+  word-spacing: 10%;
+}
+
+
+
+/* .users {
+  padding: 70px;
+  font-size: small;
+} */
+
+/* .resultsTable, thead, tr, th::after{
   padding: 57px;
   font-size: small;
 } */
