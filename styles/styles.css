@@ -2,6 +2,7 @@ body{
     margin: 0;
   }
 
+
 .banner {
     background-color: black;
   
@@ -29,6 +30,7 @@ body{
 
 /*style side bar*/
 .sidenav {
+  margin: 0;
   height: 100%;
   width: 160px;
   position: fixed;
