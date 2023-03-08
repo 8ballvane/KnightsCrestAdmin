@@ -30,7 +30,7 @@ const firebaseConfig = {
       var userData = snapshot.val()[ucfid];
       
       // Display the user's data on the page
-    console.log (userRef)
+    
     
     });
   }
