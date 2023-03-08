@@ -150,8 +150,8 @@ fieldset{
 
 .column {
   float: left;
-  width: 100%;
-  padding: -20px;
+  width: 50%;
+  padding: 10px;
 }
 
 .row:after {
@@ -166,5 +166,10 @@ fieldset{
   color: #333;
   border-radius: 5px;
   border: none;
+  padding: 10px;
+}
+.resultsTable {
+  float: left;
+  width: 100%;
   padding: 10px;
 }
