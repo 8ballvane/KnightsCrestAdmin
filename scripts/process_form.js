@@ -1,3 +1,10 @@
+
+// Firebase configuration
+import { doc, updateDoc, deleteField, getDatabase, ref, child, get } from "firebase/firestore";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getDatabase } from "firebase/database";
+
 // Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyBI4OxpPSYzATmb7qu21_4GgkW4h9-KXOY",
