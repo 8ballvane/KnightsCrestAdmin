@@ -1,3 +1,10 @@
+
+// Firebase configuration
+import { doc, updateDoc, deleteField, getDatabase, ref, child, get } from "firebase/firestore";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getDatabase } from "firebase/database";
+
 // Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyBI4OxpPSYzATmb7qu21_4GgkW4h9-KXOY",
@@ -17,7 +24,39 @@ const firebaseConfig = {
   var database = firebase.database();
 
   function init() {
+    document.myform.addEventListener("load", display, false);
     document.myform.addEventListener("submit", update, false);
+
+
+    //var ucfid = decodeURIComponent(window.location.search.substr(1)).split("=")[1];
+    //var userRef = database.ref('users').orderByChild("ucf_id").equalTo(ucfid);
+   // userRef.once('value', function(snapshot) {
+   // if (snapshot.exists()) {
+   // var userData = snapshot.val()[ucfid];
+
+  }
+
+  function display() {
+    
+      // Display the user's data on the page
+      // var firstName = document.querySelector('#firstName');
+      // var lastName = document.querySelector('#lastName');
+      // var nid = document.querySelector('#nid');
+      // var ucfid = document.querySelector('#ucfid');
+      // var campus = document.querySelector('#campus');
+      // var cashNumber = document.querySelector('#cash');
+      // var libraryNumber = document.querySelector('#library');
+    // var dob = document.querySelector('#dob');
+
+    // Get the form values
+      var firstName = document.querySelector('#firstName').value;
+      var lastName = document.querySelector('#lastName').value;
+      var nid = document.querySelector('#nid').value;
+      var ucfid = document.querySelector('#id').value;
+      var campus = document.querySelector('#campus').value;
+      var cashNumber = document.querySelector('#cash').value;
+      var libraryNumber = document.querySelector('#library').value;
+      var dob = document.querySelector('#birthday').value;
   }
 
   function update() {
@@ -31,19 +70,71 @@ const firebaseConfig = {
     // Fetch the user's data from Firebase
     userRef.once('value', function(snapshot) {
       // Get the user's data
-      var userData = snapshot.val()[ucfid];
-      
-      // Display the user's data on the page
-      var firstName = document.querySelector('#firstName');
-      var lastName = document.querySelector('#lastName');
-      var nid = document.querySelector('#nid');
-      var ucfid = document.querySelector('#ucfid');
-      var campus = document.querySelector('#campus');
-      var cashNumber = document.querySelector('#cash');
-      var libraryNumber = document.querySelector('#library');
-      var dob = document.querySelector('#dob');
+      var userData = snapshot.val()[ucf_id];
+     console.log(userData);
     
     });
   }
+
+  function remove() {
+    console.log("removed");
+    // Get the form elements
+  let fname;
+  let lname;
+  let id;
+  let nid;
+  let cash;
+  let library;
+  let birthday;
+  let expiration;
+  let campus;
+  let caste;
+
   
+  // Listen for the form submit event
+  document.myform.addEventListener("submit", function(event) {
+    event.preventDefault();
+  // Get the form elements
+  fname = document.getElementById("fname");
+  lname = document.getElementById("lname");
+  id = document.getElementById("id");
+  nid = document.getElementById("nid");
+  cash = document.getElementById("cash");
+  library = document.getElementById("library");
+  birthday = document.getElementById("birthday");
+  expiration = document.getElementById("expiration");
+  campus = document.getElementById("campus");
+  caste = document.querySelector('input[name="caste"]:checked').value;
+
+// Add the data to the database
+database.ref("users/").pop({
+  first_name: fname.value,
+  last_name: lname.value,
+  ucf_id: id.value,
+  student_nid: nid.value,
+  knights_cash_account: cash.value,
+  library_account: library.value,
+  date_of_birth: birthday.value,
+  expiration_date: expiration.value,
+  campus: campus.value,
+  caste: caste,
+});
+
+ // Show a success message to the user
+ alert("Record removed successfully!");
+
+ // Reset the form fields
+ fname.value = "";
+ lname.value = "";
+ id.value = "";
+ nid.value = "";
+ cash.value = "";
+ library.value = "";
+ birthday.value = "";
+ expiration.value = "";
+ campus.value = "";
+});
+
+}
+
   window.addEventListener("load", init, false);

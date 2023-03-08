@@ -2,6 +2,7 @@ body{
     margin: 0;
   }
 
+
 .banner {
     background-color: black;
   
@@ -168,3 +169,24 @@ fieldset{
   border: none;
   padding: 10px;
 }
+
+.resultsTable, thead, tr, th, td{
+  padding-left: 40%;
+  padding-top: 10px;
+  font-size: small;
+}
+
+/* .thead, tr, th, td{
+  /* display: block; */
+
+
+
+/* .users {
+  padding: 70px;
+  font-size: small;
+} */
+
+/* .resultsTable, thead, tr, th::after{
+  padding: 57px;
+  font-size: small;
+} */
