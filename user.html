@@ -6,6 +6,8 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Update user file</title>
         <link rel="stylesheet" href="styles/styles.css">
+        <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-database.js"></script>
         <script src="scripts/process_form.js"></script>
     </head>
     <body>
@@ -73,8 +75,8 @@
         <label for="campus">Campus:</label><br>
         <input type="text" id="campus" name="campus" placeholder="Downtown"><br><br>
 
-        <input type="submit"  id="update" onclick="update()" name="submit" value="Update">
-        <input type="submit"  id="delete" name="submit" value="Delete">
+        <input type="submit"  id="update" name="submit" value="Update">
+        <input type="submit"  id="delete" onclick="remove()" name="submit" value="Delete">
 
         </div>
 

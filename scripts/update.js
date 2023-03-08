@@ -20,6 +20,8 @@ const firebaseConfig = {
     // Get the UCF ID from the URL query parameter
     var urlParams = new URLSearchParams(window.location.search);
     var ucfid = urlParams.get('ucfid');
+
+    console.log(ucfid);
     
     // Get a reference to the user's data in Firebase
     var userRef = database.ref('users').orderByChild('ucf_id').equalTo(ucfid);
@@ -28,16 +30,6 @@ const firebaseConfig = {
     userRef.once('value', function(snapshot) {
       // Get the user's data
       var userData = snapshot.val()[ucfid];
-      
-      // Display the user's data on the page
-      var firstName = document.querySelector('#firstName');
-      var lastName = document.querySelector('#lastName');
-      var nid = document.querySelector('#nid');
-      var ucfid = document.querySelector('#ucfid');
-      var campus = document.querySelector('#campus');
-      var cashNumber = document.querySelector('#cash');
-      var libraryNumber = document.querySelector('#library');
-      var dob = document.querySelector('#dob');
     
     });
   }

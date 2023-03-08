@@ -19,19 +19,14 @@ const firebaseConfig = {
   function init() {
     document.myform.addEventListener("load", display, false);
     document.myform.addEventListener("submit", update, false);
-    document.myform.addEventListener("submit", remove, false);
 
 
-    var ucfid = decodeURIComponent(window.location.search.substr(1)).split("=")[1];
-    var userRef = database.ref('users').orderByChild("ucf_id").equalTo(ucfid);
-    userRef.once('value', function(snapshot) {
-    if (snapshot.exists()) {
-    var userData = snapshot.val()[ucfid];
-    var firstName = snapshot.val()[first_name]
-    var lastName = snapshot.val()[last_name]
+    //var ucfid = decodeURIComponent(window.location.search.substr(1)).split("=")[1];
+    //var userRef = database.ref('users').orderByChild("ucf_id").equalTo(ucfid);
+   // userRef.once('value', function(snapshot) {
+   // if (snapshot.exists()) {
+   // var userData = snapshot.val()[ucfid];
 
-  }
-});
   }
 
   function display() {
@@ -68,22 +63,14 @@ const firebaseConfig = {
     // Fetch the user's data from Firebase
     userRef.once('value', function(snapshot) {
       // Get the user's data
-      var userData = snapshot.val()[ucfid];
-      
-      // Display the user's data on the page
-      var firstName = document.querySelector('#firstName');
-      var lastName = document.querySelector('#lastName');
-      var nid = document.querySelector('#nid');
-      var ucfid = document.querySelector('#ucfid');
-      var campus = document.querySelector('#campus');
-      var cashNumber = document.querySelector('#cash');
-      var libraryNumber = document.querySelector('#library');
-      var dob = document.querySelector('#dob');
+      var userData = snapshot.val()[ucf_id];
+     console.log(userData);
     
     });
   }
 
   function remove() {
+    console.log("removed");
     // Get the form elements
   let fname;
   let lname;
@@ -94,7 +81,6 @@ const firebaseConfig = {
   let birthday;
   let expiration;
   let campus;
-  let profile;
   let caste;
 
   
@@ -111,11 +97,10 @@ const firebaseConfig = {
   birthday = document.getElementById("birthday");
   expiration = document.getElementById("expiration");
   campus = document.getElementById("campus");
-  profile = document.getElementById("profile")
   caste = document.querySelector('input[name="caste"]:checked').value;
 
 // Add the data to the database
-database.ref("users/").push({
+database.ref("users/").pop({
   first_name: fname.value,
   last_name: lname.value,
   ucf_id: id.value,
@@ -125,7 +110,6 @@ database.ref("users/").push({
   date_of_birth: birthday.value,
   expiration_date: expiration.value,
   campus: campus.value,
-  profile_picture: profile.value,
   caste: caste,
 });
 
@@ -142,7 +126,6 @@ database.ref("users/").push({
  birthday.value = "";
  expiration.value = "";
  campus.value = "";
- profile.value = "";
 });
 
 }
