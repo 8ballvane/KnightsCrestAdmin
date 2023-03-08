@@ -6,56 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Update user file</title>
         <link rel="stylesheet" href="styles/styles.css">
-        <script type="module">
-          // Firebase configuration
-          import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
-          import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";;
-
-          // TODO: Add SDKs for Firebase products that you want to use
-          // https://firebase.google.com/docs/web/setup#available-libraries
-
-          // Your web app's Firebase configuration
-          // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-          const firebaseConfig = {
-          apiKey: "AIzaSyBI4OxpPSYzATmb7qu21_4GgkW4h9-KXOY",
-          authDomain: "knightscrest.firebaseapp.com",
-          databaseURL: "https://knightscrest-default-rtdb.firebaseio.com",
-          projectId: "knightscrest",
-          storageBucket: "knightscrest.appspot.com",
-          messagingSenderId: "595850728642",
-          appId: "1:595850728642:web:7885d4b5387a97b91d975b",
-          measurementId: "G-M4V6P20S2R"
-          };
-
-          // Initialize Firebase
-          const app = initializeApp(firebaseConfig);
-          const database = getDatabase(app);
-
-          // Get a reference to the Firebase Realtime Database
-          const dbRef = ref(database);
-
-          function init() {
-          // Get the UCF ID from the URL query parameter
-          var urlParams = new URLSearchParams(window.location.search);
-          var ucfid = urlParams.get('ucfid');
-          console.log(ucfid);
-
-          // Get a reference to the user with the specified UCF ID
-          const userRef = ref(database, 'users/' + ucfid);
-
-          // Read the user data from the database
-          get(userRef).then((snapshot) => {
-          console.log("in snapshot");
-          if (snapshot.exists()) {
-            console.log(snapshot.val());
-          } else
-            console.log("no user");
-    });
-  }
-
-  window.addEventListener("load", init, false);
-</script>
-</script>
+        <script src="scripts/process_form.js"></script>
     </head>
     <body>
         <!--Add UCF Banner-->
@@ -122,8 +73,8 @@
         <label for="campus">Campus:</label><br>
         <input type="text" id="campus" name="campus" placeholder="Downtown"><br><br>
 
-        <input type="submit"  id="update" onclick="update()" name="submit" value="Update">
-        <input type="submit"  id="delete" name="submit" value="Delete">
+        <input type="submit"  id="update" name="submit" value="Update">
+        <input type="submit"  id="delete" onclick="remove()" name="submit" value="Delete">
 
         </div>
 
