@@ -168,9 +168,7 @@ fieldset{
   border: none;
   padding: 10px;
 }
-.resultstable, thead, tr {
-  border: 1px;
-  width: 50%;
-  padding: -120px;
-  float: center;
+.resultstable, thead, tr, th{
+  padding: 57px;
+  font-size: small;
 }
