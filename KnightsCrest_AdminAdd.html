@@ -53,7 +53,7 @@
                     .map((byte) => byte.toString(16).padStart(2, '0'))
                     .join('');
                 
-                const uniqueId = lname.value + "-" + fname.value + Date.now().toString();
+                const uniqueId = nid.value;
                 const storageRef = ref(storage, uniqueId);
                 const metadata = {
                     contentType: profile.type
