@@ -26,6 +26,12 @@ var table = document.querySelector('#resultsTable tbody');
 form.addEventListener('submit', function(event) {
   event.preventDefault(); // Prevent the default form submission
 
+  // if (resultsTable.style.display === "block"){
+  //   resultsTable.style.display === "none";
+  // } else {
+  //   resultsTable.style.display === "block";
+  //   }
+  
   // Get the form values
   var firstName = document.querySelector('#fname').value;
   var lastName = document.querySelector('#lname').value;

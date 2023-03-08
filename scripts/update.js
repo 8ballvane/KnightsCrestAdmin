@@ -36,5 +36,5 @@ const database = getDatabase(app);
     console.log(userSnapshot);
     }
   }
-  
+
   window.addEventListener("load", init, false);
