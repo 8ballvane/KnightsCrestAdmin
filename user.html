@@ -6,7 +6,32 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Update user file</title>
         <link rel="stylesheet" href="styles/styles.css">
-        <script src="scripts/process_form.js"></script>
+        <script src="scripts/firebase.js"></script>
+        <script type = "module">
+            firebase.initializeApp(firebaseConfig);
+            const database = firebase.database();
+            function init() {
+             // Get the UCF ID from the URL query parameter
+             const urlParams = new URLSearchParams(window.location.search);
+             const ucfid = urlParams.get('ucfid');
+                  
+             // Get a reference to the user with the specified UCF ID
+             const userRef = database.ref('users/' + ucfid);
+
+            // Read the user data from the database
+            userRef.once('value').then((snapshot) => {
+            if (snapshot.exists()) {
+                console.log(snapshot.val());
+            } else {
+              console.log("No user found with UCFID: " + ucfid);
+            }
+            }).catch((error) => {
+              console.error(error);
+            });
+        }
+        window.addEventListener("load", init, false);
+</script>
+        </script>
     </head>
     <body>
         <!--Add UCF Banner-->
