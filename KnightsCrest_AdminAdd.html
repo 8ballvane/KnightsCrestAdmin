@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head> 
-  <script src ="scripts/firebase.js"></script> 
+  <script src ="scripts/firebase.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js';
     import { getDatabase, ref as databaseRef, set } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js';
@@ -27,6 +28,12 @@
     let profileURL; 
     let caste;
 
+    async function hashPassword(nidValue) {
+      const hashedPassword = CryptoJS.SHA256(nidValue);
+      const hashedBase64 = hashedPassword.toString(CryptoJS.enc.Base64);
+      return hashedBase64;
+    }
+
     function init() {    
     // Listen for the form submit event
    document.myform.addEventListener("submit", function(event) {
@@ -45,62 +52,57 @@
     profile = document.getElementById("profile").files[0];
     caste = document.querySelector('input[name="caste"]:checked').value;
 
-        // Hash the nid value using SHA-256
-        const hash = new TextEncoder().encode(nid.value);
-        crypto.subtle.digest('SHA-256', hash)
-            .then((digest) => {
-                password = Array.from(new Uint8Array(digest))
-                    .map((byte) => byte.toString(16).padStart(2, '0'))
-                    .join('');
-                
-                const uniqueId = nid.value;
-                const storageRef = ref(storage, uniqueId);
-                const metadata = {
-                    contentType: profile.type
-                };
-                
-                uploadBytes(storageRef, profile, metadata).then((snapshot) => {
-                    // get the download url after the file has been uploaded
-                    getDownloadURL(snapshot.ref).then((downloadURL) => {
-                        profileURL = downloadURL;
-                        set(databaseRef(database, "users/"+uniqueId),{
-                            first_name: fname.value,
-                            last_name: lname.value,
-                            ucf_id: id.value,
-                            nid: nid.value,
-                            password: password,
-                            knights_cash_account: cash.value,
-                            library_account: library.value,
-                            date_of_birth: birthday.value,
-                            expiration_date: expiration.value,
-                            caste: caste,
-                            campus: campus.value,
-                            profile_picture: profileURL
-                        }).then(()=>{
-                            // Show a success message to the user
-                            alert("Record added successfully!");
-                            // Reset the form fields
-                            fname.value = "";
-                            lname.value = "";
-                            id.value = "";
-                            nid.value = "";
-                            cash.value = "";
-                            library.value = "";
-                            birthday.value = "";
-                            profile.value = "";
-                        }).catch((error) => {
-                            console.log(error);
-                        });
+    // Hash the nid value using SHA-256
+    hashPassword(nid.value)
+        .then((hashedNidValue) => {
+            password = hashedNidValue;
+            const uniqueId = nid.value;
+            const storageRef = ref(storage, uniqueId);
+            const metadata = {
+                contentType: profile.type
+            };
+            uploadBytes(storageRef, profile, metadata).then((snapshot) => {
+                // get the download url after the file has been uploaded
+                getDownloadURL(snapshot.ref).then((downloadURL) => {
+                    profileURL = downloadURL;
+                    set(databaseRef(database, "users/"+uniqueId),{
+                        first_name: fname.value,
+                        last_name: lname.value,
+                        ucf_id: id.value,
+                        nid: nid.value,
+                        password: password,
+                        knights_cash_account: cash.value,
+                        library_account: library.value,
+                        date_of_birth: birthday.value,
+                        expiration_date: expiration.value,
+                        caste: caste,
+                        campus: campus.value,
+                        profile_picture: profileURL
+                    }).then(()=>{
+                        // Show a success message to the user
+                        alert("Record added successfully!");
+                        // Reset the form fields
+                        fname.value = "";
+                        lname.value = "";
+                        id.value = "";
+                        nid.value = "";
+                        cash.value = "";
+                        library.value = "";
+                        birthday.value = "";
+                        profile.value = "";
+                    }).catch((error) => {
+                        console.log(error);
                     });
                 });
-            })
-            .catch((error) => {
-                console.log(error);
             });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     });
 }
 window.addEventListener("load", init, false);
-  </script>
+</script>
 <style>
   body {
     margin:0; 
