@@ -87,6 +87,7 @@ const firebaseConfig = {
   function init() {
     document.myform.addEventListener("load", display, false);
     document.myform.addEventListener("submit", update, false);
+  
 
 
     //var ucfid = decodeURIComponent(window.location.search.substr(1)).split("=")[1];
@@ -131,7 +132,7 @@ const firebaseConfig = {
     // Fetch the user's data from Firebase
     userRef.once('value', function(snapshot) {
       // Get the user's data
-      var userData = snapshot.val()[ucf_id];
+      var userData = snapshot.val()[ucfid];
      console.log(userData);
     
     });
