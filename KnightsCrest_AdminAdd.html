@@ -66,19 +66,26 @@
                 getDownloadURL(snapshot.ref).then((downloadURL) => {
                     profileURL = downloadURL;
                     set(databaseRef(database, "users/"+uniqueId),{
-                        first_name: fname.value,
-                        last_name: lname.value,
-                        ucf_id: id.value,
-                        nid: nid.value,
-                        password: password,
-                        knights_cash_account: cash.value,
-                        library_account: library.value,
-                        date_of_birth: birthday.value,
-                        expiration_date: expiration.value,
-                        caste: caste,
-                        campus: campus.value,
-                        profile_picture: profileURL
-                    }).then(()=>{
+                      first_name: fname.value,
+                      last_name: lname.value,
+                      ucf_id: id.value,
+                      nid: nid.value,
+                      password: password,
+                      knights_cash_account: cash.value,
+                      library_account: library.value,
+                      date_of_birth: birthday.value,
+                      expiration_date: expiration.value,
+                      caste: caste,
+                      campus: campus.value,
+                      profile_picture: downloadURL,
+                      kc_balance: {
+                        balance: 0
+                      },
+                      kc_transactions: [],
+                      library_loans: [],
+                      library_request: [],
+                      fine_balance: 0
+                      }).then(()=>{
                         // Show a success message to the user
                         alert("Record added successfully!");
                         // Reset the form fields
@@ -240,7 +247,6 @@ input[type=submit] {
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Create users</title>
 </head>
-
 <body>
     <div class="banner">
         <div class="ucf_banner">
