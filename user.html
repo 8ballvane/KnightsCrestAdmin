@@ -13,6 +13,7 @@
             
             const app = initializeApp(firebaseConfig);
             const database = getDatabase(app);
+            let myUser;
 
             // Get a reference to the Firebase Realtime Database
             const dbRef = ref(database);
@@ -28,8 +29,15 @@
             get(userRef).then((snapshot) => {
             if (snapshot.exists()) {
               const user = snapshot.val();
-              console.log(user);  
-        }})
+              myUser = user; 
+            }
+            console.log(myUser.first_name);
+
+
+
+          }
+            )
+            
       }
         window.addEventListener("load", init, false);
 </script>
@@ -55,7 +63,6 @@
                 </div>
             </div>
         </div>
-
         <!--Add Sidebar-->
         <div class="sidenav">
             <img id = "profile_pic" src="admin/Add New User/Component 31. 3.png" alt="Profile Pic">
@@ -73,78 +80,54 @@
            </button>
              </a>
            </div>
-
            <div id = title>
             <h1>RESULTS</h1>  
           </div>
-
         <div class = "main">
-
       <!-- Search form -->
       <div class="row">
         <form action="process_form.js" method="post" name="myform">
-          <fieldset>
+        <fieldset>
         <div class="column">
-            <label for="firstName">First name:</label><br>
-        <input type="text" id="firstName" name="firstName" placeholder="First Name"><br><br>
+          <label for="firstName">First name:</label><p id = "first_name"></p><br>
+          <input type="text" id="firstName" name="firstName" placeholder="First Name"><br><br>
     
-        <label for="ucfid">UCF ID:</label><br>
-        <input type="text" id="ucfid" name="ucfid" placeholder="123456"><br><br>
+          <label for="ucfid">UCF ID:</label><p id = "first_name"></p><br>
+          <input type="text" id="ucfid" name="ucfid" placeholder="123456"><br><br>
         
-        <label for="cash">Knights Cash Account:</label><br>
-        <input type="text" id="cash" name="cash" placeholder="123456123456"><br><br>
+          <label for="cash">Knights Cash Account:</label><p id = "first_name"></p><br>
+          <input type="text" id="cash" name="cash" placeholder="123456123456"><br><br>
     
-        <label for="dob">Date of Birth:</label><br>
-        <input type="text" id="dob" name="dob" placeholder="DD/MM/YYYY"><br><br>
+          <label for="dob">Date of Birth:</label><p id = "first_name"></p><br>
+          <input type="text" id="dob" name="dob" placeholder="DD/MM/YYYY"><br><br>
 
-        <label for="campus">Campus:</label><br>
-        <select id="campus">
-          <option value="" disabled selected>Select a campus</option>
-          <option value="Main Campus">UCF Main Campus</option>
-          <option value="Downtown">UCF Downtown</option>
-          <option value="Online">UCF Online</option>
-          <option value="Rosen">Rosen</option>
-        </select><br><br>
+          <label for="campus">Campus:</label><br>
+          <select id="campus">
+            <option value="" disabled selected>Select a campus</option>
+            <option value="Main Campus">UCF Main Campus</option>
+            <option value="Downtown">UCF Downtown</option>
+            <option value="Online">UCF Online</option>
+            <option value="Rosen">Rosen</option>
+          </select><br><br>
+            <input type="submit"  id="update" name="submit" value="Update">
+            <input type="submit"  id="delete" onclick="remove()" name="submit" value="Delete">
+          </div>
+          <div class="column">
+            <label for="lastName">Last name:</label><br>
+            <input type="text" id="lastName" name="lastName" placeholder="Last Name"><br><br>
 
-        <input type="submit"  id="update" name="submit" value="Update">
-        <input type="submit"  id="delete" onclick="remove()" name="submit" value="Delete">
-
-        </div>
-
-        <div class="column">
-        <label for="lastName">Last name:</label><br>
-        <input type="text" id="lastName" name="lastName" placeholder="Last Name"><br><br>
+            <label for="nid">Student NID:</label><br>
+            <input type="text" id="nid" name="nid" placeholder="ik123456"><br><br>
     
-        <label for="nid">Student NID:</label><br>
-        <input type="text" id="nid" name="nid" placeholder="ik123456"><br><br>
-    
-        <label for="library">Library Number:</label><br>
-        <input type="text" id="library" name="library" placeholder="2210347983785"><br><br>
+            <label for="library">Library Number:</label><br>
+            <input type="text" id="library" name="library" placeholder="2210347983785"><br><br>
 
-        <label for="expiration">Expiration Date:</label><br>
-        <input type="text" id="expiration" name="expiration" placeholder="05/23/2025"><br><br>
+            <label for="expiration">Expiration Date:</label><br>
+            <input type="text" id="expiration" name="expiration" placeholder="05/23/2025"><br><br>
 
-        <label for="caste">Caste:</label><br>
-        <input type="text" id="caste" name="caste" placeholder="Student"><br><br>
-
-        </div>
-
-        </div>
-
-      </fieldset>
-      </form> 
-
-        <div>
-            <p id="firstName"></p>
-            <p id="lastName"></p>
-            <p id="nid"></p>
-            <p id="ucfid"></p>
-            <p id="campus"></p>
-            <p id="cash"></p>
-            <p id="library"></p>
-            <p id="dob"></p>
-            <p id="expiration"></p>
-            <p id="caste"></p>
-        </div>
+            <label for="caste">Caste:</label><br>
+            <input type="text" id="caste" name="caste" placeholder="Student"><br><br>
+        </fieldset>
+        </form> 
     </body>
 </html>

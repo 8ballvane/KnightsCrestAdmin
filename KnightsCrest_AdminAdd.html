@@ -16,6 +16,7 @@
     // Container variables
     let fname;
     let lname;
+    let pronouns;
     let password;
     let id;
     let nid;
@@ -42,6 +43,7 @@
     // Get the form elements
     fname = document.getElementById("fname");
     lname = document.getElementById("lname");
+    pronouns = document.getElementById("pronouns");
     id = document.getElementById("id");
     nid = document.getElementById("nid");
     cash = document.getElementById("cash");
@@ -51,7 +53,6 @@
     campus = document.getElementById("campus");
     profile = document.getElementById("profile").files[0];
     caste = document.querySelector('input[name="caste"]:checked').value;
-
     // Hash the nid value using SHA-256
     hashPassword(nid.value)
         .then((hashedNidValue) => {
@@ -68,6 +69,7 @@
                     set(databaseRef(database, "users/"+uniqueId),{
                       first_name: fname.value,
                       last_name: lname.value,
+                      pronouns: pronouns.value,
                       ucf_id: id.value,
                       nid: nid.value,
                       password: password,
@@ -307,6 +309,17 @@ input[type=submit] {
       <label for="birthday">Date of Birth:</label><br>
       <input type="text" id="birthday" name="birthday" placeholder="01/01/2001"><br><br>
 
+      <label for="pronouns">Preferred pronoun:</label><br>
+      <select id="pronouns">
+        <option value="" disabled selected>Select pronoun</option>
+        <option value="He/Him/His">He/Him/His</option>
+        <option value="She/Her/Hers">She/Her/Hers</option>
+        <option value="They/Them/Theirs">They/Them/Theirs</option>
+        <option value="Ze/Hir/Hirs">Ze/Hir/Hirs</option>
+        <option value="Xe/Xem/Xyr">Xe/Xem/Xyr</option>
+        <option value="Other">Other</option>
+      </select><br><br>
+
       <label for="campus">Campus:</label><br>
       <select id="campus">
         <option value="" disabled selected>Select a campus</option>
@@ -331,7 +344,7 @@ input[type=submit] {
       
       <label for="profile">Profile picture:</label><br>
       <input type="file" id="profile" accept="image/*">
-
+    
     <h3>Caste</h3>
      <input type="radio" id="student" name="caste" value="Student">
      <label for="student">Student</label><br>
@@ -339,6 +352,7 @@ input[type=submit] {
      <label for="teacher">Teacher</label><br>
      <input type="radio" id="staff" name="caste" value="Staff">
      <label for="staff">Staff</label><br>
+
     </div>
       <input type="submit" value="Add Record">
     </fieldset>
