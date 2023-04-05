@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="styles/styles.css">
         <script src="./scripts/firebase.js"></script>
         <script type = "module">
+          /*
             import { getDatabase, ref, child, get, update } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
             
@@ -17,20 +18,6 @@
 
             // Get a reference to the Firebase Realtime Database
             const dbRef = ref(database);
-
-            // Get user to display
-            function displayUserData() {
-              document.getElementById("firstName").value = myUser.first_name;
-              document.getElementById("lastName").value = myUser.last_name;
-              document.getElementById("ucfid").value = myUser.ucf_id;
-              document.getElementById("nid").value = myUser.nid;
-              document.getElementById("cash").value = myUser.knights_cash_account;
-              document.getElementById("library").value = myUser.library_account;
-              document.getElementById("dob").value = myUser.date_of_birth;
-              document.getElementById("expiration").value = myUser.expiration_date;
-              document.getElementById("campus").value = myUser.campus;
-              document.getElementById("caste").value = myUser.caste;
-            }
 
             function init() {
              // Get the UCF ID from the URL query parameter
@@ -48,8 +35,128 @@
             displayUserData();
           }
             )
+            */
+             // Initialize Firebase
+             import { getDatabase, ref, child, get, update } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
             
-      }
+            const app = initializeApp(firebaseConfig);
+            const database = getDatabase(app);
+            let myUser;
+
+        //    const storage = getStorage(app);
+
+    // Container variables
+    let fname;
+    let lname;
+    let pronouns;
+    let password;
+    let id;
+    let nid;
+    let cash;
+    let library;
+    let birthday;
+    let expiration;
+    let campus;
+    let profile; 
+    let profileURL; 
+    let caste;
+
+    async function hashPassword(nidValue) {
+      const hashedPassword = CryptoJS.SHA256(nidValue);
+      const hashedBase64 = hashedPassword.toString(CryptoJS.enc.Base64);
+      return hashedBase64;
+    }
+
+    
+            // Get user to display
+            function displayUserData() {
+              document.getElementById("firstName").value = myUser.first_name;
+              document.getElementById("lastName").value = myUser.last_name;
+              document.getElementById("ucfid").value = myUser.ucf_id;
+              document.getElementById("nid").value = myUser.nid;
+              document.getElementById("cash").value = myUser.knights_cash_account;
+              document.getElementById("library").value = myUser.library_account;
+              document.getElementById("dob").value = myUser.date_of_birth;
+              document.getElementById("expiration").value = myUser.expiration_date;
+              document.getElementById("campus").value = myUser.campus;
+              document.getElementById("caste").value = myUser.caste;
+            }
+
+    function init() {    
+          // Get the UCF ID from the URL query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+             const ucfid = urlParams.get('ucfid');
+
+             const userRef = child(ref(database), `users/${ucfid}`);
+
+            // Retrieve the user's data from the database
+            get(userRef).then((snapshot) => {
+            if (snapshot.exists()) {
+              const user = snapshot.val();
+              myUser = user; 
+            }
+            displayUserData();
+          })
+    // Listen for the form submit event
+   document.myform.addEventListener("submit", deleteUser, false);
+}
+
+function deleteUser () {
+  event.preventDefault();
+    async function deleteUser() {
+            await remove(userRef);
+            alert("User data deleted successfully!");
+            window.location.href = "KnightsCrest_AdminHome.html";
+        }
+    };
+
+
+
+ /*Get the form elements
+ fname = document.getElementById("fname");
+    lname = document.getElementById("lname");
+    pronouns = document.getElementById("pronouns");
+    id = document.getElementById("id");
+    nid = document.getElementById("nid");
+    cash = document.getElementById("cash");
+    library = document.getElementById("library");
+    birthday = document.getElementById("birthday");
+    expiration = document.getElementById("expiration");
+    campus = document.getElementById("campus");
+    profile = document.getElementById("profile").files[0];
+    caste = document.querySelector('input[name="caste"]:checked').value;
+    
+    // Hash the nid value using SHA-256
+    hashPassword(nid.value)
+        .then((hashedNidValue) => {
+            password = hashedNidValue;
+            const uniqueId = nid.value;
+            const storageRef = ref(storage, uniqueId);
+            const metadata = {
+                contentType: profile.type
+            };
+            
+            uploadBytes(storageRef, profile, metadata).then((snapshot) => {
+                // get the download url after the file has been uploaded
+                getDownloadURL(snapshot.ref).then((downloadURL) => {
+                    profileURL = downloadURL;
+                    storageRef.remove()
+                    .then(function() {
+                     console.log("Element deleted successfully!");
+                      })
+                      .catch(function(error) {
+                        console.error("Error deleting element: ", error);
+                      });
+
+                });
+            });
+            */
+        //})
+        //.catch((error) => {
+           // console.log(error);
+       // });
+ 
         window.addEventListener("load", init, false);
 </script>
         </script>
@@ -95,7 +202,7 @@
             <h1>RESULTS</h1>  
           </div>
         <div class = "main">
-      <!-- Search form -->
+      <!-- Results form -->
       <div class="row">
         <form action="process_form.js" method="post" name="myform">
         <fieldset>
@@ -120,8 +227,10 @@
             <option value="Online">UCF Online</option>
             <option value="Rosen">Rosen</option>
           </select><br><br>
-            <input type="submit"  id="update" name="submit" value="Update">
-            <input type="submit"  id="delete" onclick="remove()" name="submit" value="Delete">
+            <div>
+            <input type="submit"  id="update" value="Update">          
+            <input type="submit"  id="delete"  value="Delete">
+            </div>
           </div>
           <div class="column">
             <label for="lastName">Last name:</label><br>

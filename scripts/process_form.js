@@ -1,4 +1,52 @@
 
+
+function init() {
+
+  var form = document.querySelector('form[name="myform"]');
+  form.addEventListener('submit', function(deleteUser) {
+    deleteUser.preventDefault(); // Prevent the default form submission
+  });
+}
+      
+function deleteUser () {
+deleteUser.preventDefault();
+async function deleteUser() {
+    await remove(userRef);
+    alert("User data deleted successfully!");
+    window.location.href = "KnightsCrest_AdminHome.html";
+}
+};
+
+
+window.addEventListener("load", init, false);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 // Firebase configuration
 import { getDatabase, ref, child, get, update } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
@@ -22,6 +70,7 @@ const firebaseConfig = {
   // Get a reference to the database service
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
+
   // Get a reference to the Firebase Realtime Database
   const dbRef = ref(database);
 
@@ -36,7 +85,8 @@ const firebaseConfig = {
     const campusField = document.getElementById('campus');
     const updateButton = document.getElementById('update');
     const deleteButton = document.getElementById('delete');
-    const userRef = child(dbRef, `users/${ucfid}`);
+    var userRef = firebase.database().ref(`users/${ucfid}`);
+    //const userRef = child(dbRef, `users/${ucfid}`);
     const userSnapshot = get(userRef);
     userSnapshot.then(snapshot => {
       const userData = snapshot.val();
@@ -48,6 +98,7 @@ const firebaseConfig = {
     // Add an event listener to the "Update" button
     updateButton.addEventListener('click', () => {
       console.log("update");
+      /*
       const newData = {
         firstName: firstNameField.value,
         cash: cashField.value,
@@ -60,14 +111,15 @@ const firebaseConfig = {
       })
       .catch((error) => {
         console.error('Error updating record:', error);
-      });
+        */
+      //});
       /*
       update(userRef, newData).then(() => {
         alert('User data updated successfully!');
       }).catch(error => {
         alert(`Error updating user data: ${error.message}`);
       });
-      */
+      
     });
     
 
