@@ -7,6 +7,7 @@
         <title>Update user file</title>
         <link rel="stylesheet" href="styles/styles.css">
         <script src="./scripts/firebase.js"></script>
+        <script src="./scripts/process_form.js"></script>
         <script type = "module">
             import { getDatabase, ref, child, get, update } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
@@ -57,6 +58,7 @@
             
       }
         window.addEventListener("load", init, false);
+
 </script>
         </script>
     </head>
@@ -103,6 +105,7 @@
         <div class = "main">
       <!-- Search form -->
       <div class="row">
+<<<<<<< Updated upstream
         <form action="process_form.js" method="post" name="myform">
         <fieldset>
         <div class="column">
@@ -132,6 +135,36 @@
           <div class="column">
             <label for="lastName">Last name:</label><br>
             <input type="text" id="lastName" name="lastName" placeholder="Last Name"><br><br>
+=======
+        <form action="process_form.js" method="post" name="update">
+          <fieldset>
+        <div class="column">
+            <label for="firstName">First name:</label><br>
+        <input type="text" id='#firstName' name="firstName" placeholder="First Name"><br><br>
+    
+        <label for="ucfid">UCF ID:</label><br>
+        <input type="text" id="ucfid" name="ucfid" placeholder=""><br><br>
+        
+        <label for="cash">Knights Cash Account:</label><br>
+        <input type="text" id="cash" name="cash" placeholder=""><br><br>
+    
+        <label for="dob">Date of Birth:</label><br>
+        <input type="text" id="dob" name="dob" placeholder="DD/MM/YYYY"><br><br>
+
+        <label for="campus">Campus:</label><br>
+        <select id="campus">
+          <option value="" disabled selected>Select a campus</option>
+          <option value="Main Campus">UCF Main Campus</option>
+          <option value="Downtown">UCF Downtown</option>
+          <option value="Online">UCF Online</option>
+          <option value="Rosen">Rosen</option>
+        </select><br><br>
+
+        <input type="submit"  id="update" name="submit" value="update">
+        <input type="submit"  id="delete" onclick="remove()" name="submit" value="Delete">
+
+        </div>
+>>>>>>> Stashed changes
 
             <label for="nid">Student NID:</label><br>
             <input type="text" id="nid" name="nid" placeholder="ik123456"><br><br>
