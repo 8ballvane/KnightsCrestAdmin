@@ -1,8 +1,15 @@
 
 // Firebase configuration
+<<<<<<< Updated upstream
 import { getDatabase, ref, child, get, update } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+=======
+// import { doc, updateDoc, deleteField, getDatabase, ref, child, get } from "firebase/firestore";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+>>>>>>> Stashed changes
 import { getDatabase } from "firebase/database";
+import {  getDatabase, ref } from "firebase/firestore";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -98,7 +105,7 @@ const firebaseConfig = {
 
   }
 
-  function display() {
+  // function display() {
     
       // Display the user's data on the page
       // var firstName = document.querySelector('#firstName');
@@ -119,24 +126,40 @@ const firebaseConfig = {
       var cashNumber = document.querySelector('#cash').value;
       var libraryNumber = document.querySelector('#library').value;
       var dob = document.querySelector('#birthday').value;
-  }
+  // }
 
   function update() {
+
+    set (ref)(database, "users" + ucfid.valueOf), {
+      firstName: enterfirstName.value,
+      lastName: enterlastName.value,
+      nid: enternid.value,
+      ucfid: enterid.value,
+      campus: entercampus.value,
+      cashNumber: entercash.value,
+      libraryNumber: enterlibrary.value,
+      dob: enterbirthday.value,   
+    }
+   
     // Get the UCF ID from the URL query parameter
     var urlParams = new URLSearchParams(window.location.search);
     var ucfid = urlParams.get('ucfid');
-    
+
     // Get a reference to the user's data in Firebase
-    var userRef = database.ref('users').orderByChild('ucf_id').equalTo(ucfid);
-    
+    var userRef = database.ref('users').orderByChild('ucfid').equalTo(ucfid);
+   
+
     // Fetch the user's data from Firebase
-    userRef.once('value', function(snapshot) {
-      // Get the user's data
-      var userData = snapshot.val()[ucfid];
-     console.log(userData);
+    // userRef.once('value', function(snapshot) {
+    //   // Get the user's data
+    //   var userData = snapshot.val()[ucfid,firstName,lastName,nid,id,campus,cash, library,birthday];
+    //  console.log(userData);
     
-    });
+    // });
   }
+
+
+
 
   function remove() {
     console.log("removed");
