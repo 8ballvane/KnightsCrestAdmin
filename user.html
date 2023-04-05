@@ -29,7 +29,7 @@
               document.getElementById("dob").value = myUser.date_of_birth;
               document.getElementById("expiration").value = myUser.expiration_date;
               document.getElementById("campus").value = myUser.campus;
-              document.getElementById("caste").value = myUser.caste;
+              document.getElementsByName("caste").value = myUser.caste;
             }
 
             function init() {
@@ -121,7 +121,7 @@
             <option value="Rosen">Rosen</option>
           </select><br><br>
             <input type="submit"  id="update" name="submit" value="Update">
-            <input type="submit"  id="delete" onclick="remove()" name="submit" value="Delete">
+            <input type="submit"  id="delete" onclick=remove() name="submit" value="Delete">
           </div>
           <div class="column">
             <label for="lastName">Last name:</label><br>
@@ -137,12 +137,23 @@
             <input type="text" id="expiration" name="expiration" placeholder="05/23/2025"><br><br>
 
             <label for="caste">Caste:</label><br>
-            <input type="radio" id="caste" name="caste" value="Student">
-            <label for="student">Student</label><br>
-            <input type="radio" id="caste" name="caste" value="Teacher">
-            <label for="teacher">Teacher</label><br>
-            <input type="radio" id="caste" name="caste" value="Staff">
-            <label for="staff">Staff</label><br><br>
+            <select id ="pronoun">
+              <option value="" disabled selected>Select caste</option>
+              <option value="Student">Student</option>
+              <option value="Teacher">Teacher</option>
+              <option value="Staff">Staff</option>
+            </select><br><br>
+
+            <label for="pronouns">Preferred pronoun:</label><br>
+            <select id="pronouns">
+              <option value="" disabled selected>Select pronoun</option>
+              <option value="He/Him/His">He/Him/His</option>
+              <option value="She/Her/Hers">She/Her/Hers</option>
+              <option value="They/Them/Theirs">They/Them/Theirs</option>
+              <option value="Ze/Hir/Hirs">Ze/Hir/Hirs</option>
+              <option value="Xe/Xem/Xyr">Xe/Xem/Xyr</option>
+              <option value="Other">Other</option>
+            </select><br><br>
         </fieldset>
         </form> 
     </body>
