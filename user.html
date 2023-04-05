@@ -31,6 +31,11 @@
               document.getElementById("campus").value = myUser.campus;
               document.getElementsByName("caste").value = myUser.caste;
             }
+            
+            async function deleteUser() {
+              remove(userRef);
+              alert("User data deleted successfully!");
+              window.location.href = "KnightsCrest_AdminHome.html";}
 
             function init() {
              // Get the UCF ID from the URL query parameter
