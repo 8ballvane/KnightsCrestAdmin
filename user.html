@@ -18,6 +18,20 @@
             // Get a reference to the Firebase Realtime Database
             const dbRef = ref(database);
 
+            // Get user to display
+            function displayUserData() {
+              document.getElementById("firstName").value = myUser.first_name;
+              document.getElementById("lastName").value = myUser.last_name;
+              document.getElementById("ucfid").value = myUser.ucf_id;
+              document.getElementById("nid").value = myUser.nid;
+              document.getElementById("cash").value = myUser.knights_cash_account;
+              document.getElementById("library").value = myUser.library_account;
+              document.getElementById("dob").value = myUser.date_of_birth;
+              document.getElementById("expiration").value = myUser.expiration_date;
+              document.getElementById("campus").value = myUser.campus;
+              document.getElementById("caste").value = myUser.caste;
+            }
+
             function init() {
              // Get the UCF ID from the URL query parameter
              const urlParams = new URLSearchParams(window.location.search);
@@ -31,10 +45,7 @@
               const user = snapshot.val();
               myUser = user; 
             }
-            console.log(myUser.first_name);
-
-
-
+            displayUserData();
           }
             )
             
@@ -89,16 +100,16 @@
         <form action="process_form.js" method="post" name="myform">
         <fieldset>
         <div class="column">
-          <label for="firstName">First name:</label><p id = "first_name"></p><br>
+          <label for="firstName">First name:</label><br>
           <input type="text" id="firstName" name="firstName" placeholder="First Name"><br><br>
     
-          <label for="ucfid">UCF ID:</label><p id = "first_name"></p><br>
+          <label for="ucfid">UCF ID:</label><br>
           <input type="text" id="ucfid" name="ucfid" placeholder="123456"><br><br>
         
-          <label for="cash">Knights Cash Account:</label><p id = "first_name"></p><br>
+          <label for="cash">Knights Cash Account:</label><br>
           <input type="text" id="cash" name="cash" placeholder="123456123456"><br><br>
     
-          <label for="dob">Date of Birth:</label><p id = "first_name"></p><br>
+          <label for="dob">Date of Birth:</label><br>
           <input type="text" id="dob" name="dob" placeholder="DD/MM/YYYY"><br><br>
 
           <label for="campus">Campus:</label><br>
@@ -126,7 +137,12 @@
             <input type="text" id="expiration" name="expiration" placeholder="05/23/2025"><br><br>
 
             <label for="caste">Caste:</label><br>
-            <input type="text" id="caste" name="caste" placeholder="Student"><br><br>
+            <input type="radio" id="caste" name="caste" value="Student">
+            <label for="student">Student</label><br>
+            <input type="radio" id="caste" name="caste" value="Teacher">
+            <label for="teacher">Teacher</label><br>
+            <input type="radio" id="caste" name="caste" value="Staff">
+            <label for="staff">Staff</label><br><br>
         </fieldset>
         </form> 
     </body>
