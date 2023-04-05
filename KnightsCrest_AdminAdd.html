@@ -30,17 +30,18 @@
     let caste;
 
     async function hashPassword(nidValue) {
+
       const hashedPassword = CryptoJS.SHA256(nidValue);
       const hashedBase64 = hashedPassword.toString(CryptoJS.enc.Base64);
       return hashedBase64;
     }
-
-    function init() {    
-    // Listen for the form submit event
-   document.myform.addEventListener("submit", function(event) {
-    event.preventDefault();
+    
+    async function verifyUser() {
+    
+      let validUser = false;
 
     // Get the form elements
+
     fname = document.getElementById("fname");
     lname = document.getElementById("lname");
     pronouns = document.getElementById("pronouns");
@@ -52,7 +53,41 @@
     expiration = document.getElementById("expiration");
     campus = document.getElementById("campus");
     profile = document.getElementById("profile").files[0];
-    caste = document.querySelector('input[name="caste"]:checked').value;
+    caste = document.getElementById("caste").value;
+
+    // Check if a user with the same ID already exists
+
+    const userRef = databaseRef(database, "users/" + nid.value);
+    const userSnapshot = await get(userRef);
+    if (userSnapshot.exists()) {
+    validUser = false;
+    }else
+    validUser = true;
+    return validUser;
+  }
+
+    function init() {    
+    // Listen for the form submit event
+
+   document.myform.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    // Get the form elements
+
+    fname = document.getElementById("fname");
+    lname = document.getElementById("lname");
+    pronouns = document.getElementById("pronouns");
+    id = document.getElementById("id");
+    nid = document.getElementById("nid");
+    cash = document.getElementById("cash");
+    library = document.getElementById("library");
+    birthday = document.getElementById("birthday");
+    expiration = document.getElementById("expiration");
+    campus = document.getElementById("campus");
+    profile = document.getElementById("profile").files[0];
+    caste = document.getElementById("caste").value;
+
+    if(verifyUser()){
     // Hash the nid value using SHA-256
     hashPassword(nid.value)
         .then((hashedNidValue) => {
@@ -66,49 +101,52 @@
                 // get the download url after the file has been uploaded
                 getDownloadURL(snapshot.ref).then((downloadURL) => {
                     profileURL = downloadURL;
-                    set(databaseRef(database, "users/"+uniqueId),{
-                      first_name: fname.value,
-                      last_name: lname.value,
-                      pronouns: pronouns.value,
-                      ucf_id: id.value,
-                      nid: nid.value,
-                      password: password,
-                      knights_cash_account: cash.value,
-                      library_account: library.value,
-                      date_of_birth: birthday.value,
-                      expiration_date: expiration.value,
-                      caste: caste,
-                      campus: campus.value,
-                      profile_picture: downloadURL,
-                      kc_balance: {
-                        balance: 0
-                      },
-                      kc_transactions: 0,
-                      library_loans: 0,
-                      library_request: 0,
-                      fine_balance: 0
-                      }).then(()=>{
-                        // Show a success message to the user
-                        alert("Record added successfully!");
-                        // Reset the form fields
-                        fname.value = "";
-                        lname.value = "";
-                        id.value = "";
-                        nid.value = "";
-                        cash.value = "";
-                        library.value = "";
-                        birthday.value = "";
-                        profile.value = "";
-                    }).catch((error) => {
+                      set(databaseRef(database, "users/"+uniqueId),{
+                        first_name: fname.value,
+                        last_name: lname.value,
+                        pronouns: pronouns.value,
+                        ucf_id: id.value,
+                        nid: nid.value,
+                        password: password,
+                        knights_cash_account: cash.value,
+                        library_account: library.value,
+                        date_of_birth: birthday.value,
+                        expiration_date: expiration.value,
+                        caste: caste,
+                        campus: campus.value,
+                        profile_picture: downloadURL,
+                        kc_balance: {
+                          balance: 0
+                        },
+                        kc_transactions: 0,
+                        library_loans: 0,
+                        library_request: 0,
+                        fine_balance: 0
+                        }).then(()=>{
+                          // Show a success message to the user
+                          alert("Record added successfully!");
+                          // Reset the form fields
+                          fname.value = "";
+                          lname.value = "";
+                          id.value = "";
+                          nid.value = "";
+                          cash.value = "";
+                          library.value = "";
+                          birthday.value = "";
+                          profile.value = "";
+                      }).catch((error) => {
                         console.log(error);
-                    });
+                      });
                 });
             });
         })
         .catch((error) => {
             console.log(error);
         });
+      }
+
     });
+    
 }
 window.addEventListener("load", init, false);
 </script>
