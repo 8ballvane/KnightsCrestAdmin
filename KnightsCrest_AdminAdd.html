@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head> 
-  <script src ="scripts/firebase.js"></script>
+  <script src="scripts/firebase.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js';
-    import { getDatabase, ref as databaseRef, set } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js';
+    import { getDatabase, ref as databaseRef, set, get } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js';
     import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js';
     
     // Initialize Firebase
@@ -13,6 +13,74 @@
     const database = getDatabase(app);
     const storage = getStorage(app);
 
+    async function hashPassword(nidValue) {
+      const hashedPassword = CryptoJS.SHA256(nidValue);
+      const hashedBase64 = hashedPassword.toString(CryptoJS.enc.Base64);
+      return hashedBase64;
+    }
+    
+    async function verifyUser(nidValue) {
+      const userRef = databaseRef(database, "users/" + nidValue);
+      const userSnapshot = await get(userRef);
+      return !userSnapshot.exists();
+    }
+
+    async function addUser() {
+      if (await verifyUser(nid.value)) {
+        // Hash the nid value using SHA-256
+        const hashedNidValue = await hashPassword(nid.value);
+        password = hashedNidValue;
+        const uniqueId = nid.value;
+        const storageRef = ref(storage, uniqueId);
+        const metadata = {
+          contentType: profile.type
+        };
+
+        const snapshot = await uploadBytes(storageRef, profile, metadata);
+        // get the download url after the file has been uploaded
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        profileURL = downloadURL;
+        
+        await set(databaseRef(database, "users/"+uniqueId), {
+          first_name: fname.value,
+          last_name: lname.value,
+          pronouns: pronouns.value,
+          ucf_id: id.value,
+          nid: nid.value,
+          password: password,
+          knights_cash_account: cash.value,
+          library_account: library.value,
+          date_of_birth: birthday.value,
+          expiration_date: expiration.value,
+          caste: caste,
+          campus: campus.value,
+          profile_picture: downloadURL,
+          kc_balance: {
+            balance: 0
+          },
+          kc_transactions: 0,
+          library_loans: 0,
+          library_request: 0,
+          fine_balance: 0
+        });
+
+        // Show a success message to the user
+        alert("Record added successfully!");
+        // Reset the form fields
+        fname.value = "";
+        lname.value = "";
+        id.value = "";
+        nid.value = "";
+        cash.value = "";
+        library.value = "";
+        birthday.value = "";
+        profile.value = "";
+      } else {
+        alert("User with the same NID already exists. Please enter a unique NID.");
+      }
+    }
+    
+    
     // Container variables
     let fname;
     let lname;
@@ -29,14 +97,9 @@
     let profileURL; 
     let caste;
 
-    async function hashPassword(nidValue) {
-      const hashedPassword = CryptoJS.SHA256(nidValue);
-      const hashedBase64 = hashedPassword.toString(CryptoJS.enc.Base64);
-      return hashedBase64;
-    }
-
-    function init() {    
+  function init() {    
     // Listen for the form submit event
+
    document.myform.addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -52,63 +115,10 @@
     expiration = document.getElementById("expiration");
     campus = document.getElementById("campus");
     profile = document.getElementById("profile").files[0];
-    caste = document.querySelector('input[name="caste"]:checked').value;
-    // Hash the nid value using SHA-256
-    hashPassword(nid.value)
-        .then((hashedNidValue) => {
-            password = hashedNidValue;
-            const uniqueId = nid.value;
-            const storageRef = ref(storage, uniqueId);
-            const metadata = {
-                contentType: profile.type
-            };
-            uploadBytes(storageRef, profile, metadata).then((snapshot) => {
-                // get the download url after the file has been uploaded
-                getDownloadURL(snapshot.ref).then((downloadURL) => {
-                    profileURL = downloadURL;
-                    set(databaseRef(database, "users/"+uniqueId),{
-                      first_name: fname.value,
-                      last_name: lname.value,
-                      pronouns: pronouns.value,
-                      ucf_id: id.value,
-                      nid: nid.value,
-                      password: password,
-                      knights_cash_account: cash.value,
-                      library_account: library.value,
-                      date_of_birth: birthday.value,
-                      expiration_date: expiration.value,
-                      caste: caste,
-                      campus: campus.value,
-                      profile_picture: downloadURL,
-                      kc_balance: {
-                        balance: 0
-                      },
-                      kc_transactions: 0,
-                      library_loans: 0,
-                      library_request: 0,
-                      fine_balance: 0
-                      }).then(()=>{
-                        // Show a success message to the user
-                        alert("Record added successfully!");
-                        // Reset the form fields
-                        fname.value = "";
-                        lname.value = "";
-                        id.value = "";
-                        nid.value = "";
-                        cash.value = "";
-                        library.value = "";
-                        birthday.value = "";
-                        profile.value = "";
-                    }).catch((error) => {
-                        console.log(error);
-                    });
-                });
-            });
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    });
+    caste = document.getElementById("caste").value;
+    addUser();
+  })
+
 }
 window.addEventListener("load", init, false);
 </script>
