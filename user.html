@@ -19,10 +19,13 @@
             // Get a reference to the Firebase Realtime Database
             const dbRef = ref(database);
 
+            // Get the user unique ID from the url
             function getUCFIDFromURL() {
               const urlParams = new URLSearchParams(window.location.search);
               return urlParams.get('ucfid');
             }
+
+            // Get the user from the firebase database
             async function fetchUserData(ucf_id) {
               const userRef = ref(database, 'users/' + ucf_id);
               const snapshot = await get(userRef);
@@ -32,6 +35,8 @@
               console.error('No user found with the specified UCF ID');
               }
               }
+
+              // Display the user data on the screen
               function displayUserData() {
                 if (myUser) {
                   document.getElementById('firstName').value = myUser.first_name;
@@ -44,58 +49,63 @@
                   document.getElementById('pronouns').value = myUser.pronouns;
                 }
               }
-              // Update
+              // Update the user
               async function updateUser(event) {
-  event.preventDefault();
+                event.preventDefault();
+                // Update myUser properties if the corresponding input fields are not empty
+                const firstNameInput = document.getElementById("firstName");
+                if (firstNameInput.value) myUser.first_name = firstNameInput.value;
+                const cashInput = document.getElementById("cash");
+                if (cashInput.value) myUser.knights_cash_account = cashInput.value;
+                const dobInput = document.getElementById("dob");
+                if (dobInput.value) myUser.date_of_birth = dobInput.value;
+                const campusSelect = document.getElementById("campus");
+                if (campusSelect.value) myUser.campus = campusSelect.value;
+                const libraryInput = document.getElementById("library");
+                if (libraryInput.value) myUser.library_account = libraryInput.value;
+                const expirationInput = document.getElementById("expiration");
+                if (expirationInput.value) myUser.expiration_date = expirationInput.value;
+                const casteSelect = document.getElementById("caste");
+                if (casteSelect.value) myUser.caste = casteSelect.value;
+                const pronounsSelect = document.getElementById("pronouns");
+                if (pronounsSelect.value) myUser.pronouns = pronounsSelect.value;
+                const userRef = child(dbRef, `users/${myUser.nid}`);
+                await update(userRef, myUser);
+                // Display a success message and reload the user data
+                alert("User information updated successfully!");
+                displayUserData(myUser);
+                }
 
-  // Update myUser properties if the corresponding input fields are not empty
-  const firstNameInput = document.getElementById("firstName");
-  if (firstNameInput.value) myUser.first_name = firstNameInput.value;
+                async function deleteUser() {
+                // Confirm with the user that they want to delete the account
+                const confirmation = confirm("Are you sure you want to delete this user? This action cannot be undone.");
+                if (confirmation) {
+                // Remove the user data from the Firebase Realtime Database
+                const userRef = child(dbRef, `users/${myUser.nid}`);
+                await remove(userRef);
+                // Display a success message and redirect the user
+                alert("User account deleted successfully!");
+                window.location.href = "KnightsCrest_AdminHome.html";
+                }
+              }
 
-  const cashInput = document.getElementById("cash");
-  if (cashInput.value) myUser.knights_cash_account = cashInput.value;
-
-  const dobInput = document.getElementById("dob");
-  if (dobInput.value) myUser.date_of_birth = dobInput.value;
-
-  const campusSelect = document.getElementById("campus");
-  if (campusSelect.value) myUser.campus = campusSelect.value;
-
-  const libraryInput = document.getElementById("library");
-  if (libraryInput.value) myUser.library_account = libraryInput.value;
-
-  const expirationInput = document.getElementById("expiration");
-  if (expirationInput.value) myUser.expiration_date = expirationInput.value;
-
-  const casteSelect = document.getElementById("caste");
-  if (casteSelect.value) myUser.caste = casteSelect.value;
-
-  const pronounsSelect = document.getElementById("pronouns");
-  if (pronounsSelect.value) myUser.pronouns = pronounsSelect.value;
-
-  // Update the user data in the Firebase Realtime Database
-  const userRef = child(dbRef, `users/${myUser.nid}`);
-  await update(userRef, myUser);
-
-  // Display a success message and reload the user data
-  alert("User information updated successfully!");
-  displayUserData(myUser);
-}
-
-              
               async function init() {
                 const ucf_id = getUCFIDFromURL();
-
                 if (ucf_id) {
                 await fetchUserData(ucf_id);
                 displayUserData();
                 } else {
                 console.error('No UCF ID provided in the URL');
-                }                
+                }
+                
+                // Event listener for update
                 const updateButton = document.getElementById("update");
                 updateButton.addEventListener("click", updateUser);
-              }
 
+                // Event listener for delete
+                const deleteButton = document.getElementById("delete");
+                deleteButton.addEventListener("click", deleteUser);
+              }
             window.addEventListener("load", init, false);
         </script>
     </head>
