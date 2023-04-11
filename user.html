@@ -7,9 +7,8 @@
         <title>Update user file</title>
         <link rel="stylesheet" href="styles/styles.css">
         <script src="./scripts/firebase.js"></script>
-        <script src="./scripts/process_form.js"></script>
-        <script type = "module">
-            import { getDatabase, ref, child, get, update } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+        <script type="module">
+            import { getDatabase, ref, child, get, update, remove } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
             
             const app = initializeApp(firebaseConfig);
@@ -33,11 +32,51 @@
               document.getElementById("caste").value = myUser.caste;
               document.getElementById("pronouns").value = myUser.pronouns;
             }
+
+          async function updateUser() {
+            // Collect the values from the input fields
+            const firstName = document.getElementById("firstName").value;
+            const lastName = document.getElementById("lastName").value;
+            const campus = document.getElementById("campus").value;
+            const caste = document.getElementById("caste").value;
+            const dateOfBirth = document.getElementById("dob").value;
+            const expirationDate = document.getElementById("expiration").value;
+            const knightsCashAccount = document.getElementById("cash").value;
+            const libraryAccount = document.getElementById("library").value;
+            const pronouns = document.getElementById("pronouns").value;
+            // Create an object containing the updated user data
+            const updatedUserData = {};
+
+          if (firstName) updatedUserData.first_name = firstName;
+          if (lastName) updatedUserData.last_name = lastName;
+          if (campus) updatedUserData.campus = campus;
+          if (caste) updatedUserData.caste = caste;
+          if (dateOfBirth) updatedUserData.date_of_birth = dateOfBirth;
+          if (expirationDate) updatedUserData.expiration_date = expirationDate;
+          if (knightsCashAccount) updatedUserData.knights_cash_account = knightsCashAccount;
+          if (libraryAccount) updatedUserData.library_account = libraryAccount;
+          if (pronouns) updatedUserData.pronouns = pronouns;
+
+          // Update the user's data in the Firebase Realtime Database
+          const userRef = child(ref(database), `users/${myUser.ucf_id}`);
+          await update(userRef, updatedUserData);
+
+          // Display a confirmation message and reload the page to show the updated data
+          alert("User data updated successfully!");
+          window.location.reload();
+        }
+
             
-            async function deleteUser() {
-              remove(userRef);
-              alert("User data deleted successfully!");
-              window.location.href = "KnightsCrest_AdminHome.html";}
+        async function confirmDeleteUser() {
+                if (confirm("Are you sure you want to delete this account? This action cannot be undone.")) {
+                    const userRef = child(ref(database), `users/${myUser.ucf_id}`);
+                    await remove(userRef);
+                    alert("User data deleted successfully!");
+                    window.location.href = "KnightsCrest_AdminHome.html";
+                }
+            }
+
+            window.confirmDeleteUser = confirmDeleteUser;
 
             function init() {
              // Get the UCF ID from the URL query parameter
@@ -46,16 +85,20 @@
 
              const userRef = child(ref(database), `users/${ucfid}`);
 
+
             // Retrieve the user's data from the database
             get(userRef).then((snapshot) => {
             if (snapshot.exists()) {
               const user = snapshot.val();
               myUser = user; 
-            }
-            console.log(user);
-            displayUserData();
-          }
-            )
+              console.log(user);
+            }         
+          })
+            // Attach event listeners
+            document.getElementById("delete").addEventListener("click", function(event) {
+              event.preventDefault();
+              confirmDeleteUser();
+            });
             
       }
         window.addEventListener("load", init, false);
@@ -106,45 +149,11 @@
         <div class = "main">
       <!-- Search form -->
       <div class="row">
-<<<<<<< Updated upstream
-        <form action="process_form.js" method="post" name="myform">
-        <fieldset>
-        <div class="column">
-          <label for="firstName">First name:</label><br>
-          <input type="text" id="firstName" name="firstName" placeholder="First Name"><br><br>
-    
-          <label for="ucfid">UCF ID:</label><br>
-          <input type="text" id="ucfid" name="ucfid" placeholder="123456"><br><br>
-        
-          <label for="cash">Knights Cash Account:</label><br>
-          <input type="text" id="cash" name="cash" placeholder="123456123456"><br><br>
-    
-          <label for="dob">Date of Birth:</label><br>
-          <input type="text" id="dob" name="dob" placeholder="DD/MM/YYYY"><br><br>
-
-          <label for="campus">Campus:</label><br>
-          <select id="campus">
-            <option value="" disabled selected>Select a campus</option>
-            <option value="Main Campus">UCF Main Campus</option>
-            <option value="Downtown">UCF Downtown</option>
-            <option value="Online">UCF Online</option>
-            <option value="Rosen">Rosen</option>
-          </select><br><br>
-            <input type="submit"  id="update" name="submit" value="Update">
-            <input type="submit"  id="delete" onclick=remove() name="submit" value="Delete">
-          </div>
-          <div class="column">
-            <label for="lastName">Last name:</label><br>
-            <input type="text" id="lastName" name="lastName" placeholder="Last Name"><br><br>
-=======
-        <form action="process_form.js" method="post" name="update">
+        <form name="update">
           <fieldset>
         <div class="column">
             <label for="firstName">First name:</label><br>
         <input type="text" id='#firstName' name="firstName" placeholder="First Name"><br><br>
-    
-        <label for="ucfid">UCF ID:</label><br>
-        <input type="text" id="ucfid" name="ucfid" placeholder=""><br><br>
         
         <label for="cash">Knights Cash Account:</label><br>
         <input type="text" id="cash" name="cash" placeholder=""><br><br>
@@ -161,14 +170,10 @@
           <option value="Rosen">Rosen</option>
         </select><br><br>
 
-        <input type="submit"  id="update" name="submit" value="update">
-        <input type="submit"  id="delete" onclick="remove()" name="submit" value="Delete">
+        <input type="submit"  id="update" name="submit" value="Update">
+        <input type="button"  id="delete" onclick="confirmDeleteUser()" name="submit" value="Delete">
 
         </div>
->>>>>>> Stashed changes
-
-            <label for="nid">Student NID:</label><br>
-            <input type="text" id="nid" name="nid" placeholder="ik123456"><br><br>
     
             <label for="library">Library Number:</label><br>
             <input type="text" id="library" name="library" placeholder="2210347983785"><br><br>
