@@ -9,10 +9,13 @@
         <script src="./scripts/firebase.js"></script>
         <script type="module">
             import { getDatabase, ref, child, get, update, remove } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+            import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js";
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
             
             const app = initializeApp(firebaseConfig);
             const database = getDatabase(app);
+            const storage = getStorage(app);
+
             let myUser;
             
 
@@ -47,8 +50,19 @@
                   document.getElementById('expiration').value = myUser.expiration_date;
                   document.getElementById('caste').value = myUser.caste;
                   document.getElementById('pronouns').value = myUser.pronouns;
+                  document.getElementById('currentProfilePicture').src = myUser.profile_picture;
                 }
               }
+              async function updateProfilePicture(file) {
+                if (file) {
+                  const profilePicRef = storageRef(storage, `${myUser.nid}`);
+                  await uploadBytes(profilePicRef, file);
+                  const url = await getDownloadURL(profilePicRef);
+                  return url;
+                }
+                return null;
+              }
+
               // Update the user
               async function updateUser(event) {
                 event.preventDefault();
@@ -94,6 +108,14 @@
                 if (casteSelect.value) myUser.caste = casteSelect.value;
                 const pronounsSelect = document.getElementById("pronouns");
                 if (pronounsSelect.value) myUser.pronouns = pronounsSelect.value;
+                const profilePictureInput = document.getElementById("profile");
+                const newProfilePicture = profilePictureInput.files[0];
+                if (newProfilePicture) {
+                  const url = await updateProfilePicture(newProfilePicture);
+                    if (url) {
+                      myUser.profile_picture = url;
+                    }
+                  }
                 const userRef = child(dbRef, `users/${myUser.nid}`);
 
                 // Validate input fields
@@ -135,10 +157,18 @@
                 const userRef = child(dbRef, `users/${myUser.nid}`);
                 await remove(userRef);
                 // Display a success message and redirect the user
-                alert("User account deleted successfully!");
-                window.location.href = "KnightsCrest_AdminHome.html";
+                // Delete the profile picture from Firebase Storage
+                  const storage = getStorage(app);
+                  const profilePicRef = storageRef(storage, `${myUser.nid}`);
+                  try {
+                    await deleteObject(profilePicRef);
+                  } catch (error) {
+                    console.error('Error deleting the profile picture:', error);
+                  }
+                  alert("User account deleted successfully!");
+                  window.location.href = "KnightsCrest_AdminHome.html";
+                  }
                 }
-              }
 
               async function init() {
                 const ucf_id = getUCFIDFromURL();
@@ -256,6 +286,10 @@
               <option value="Xe/Xem/Xyr">Xe/Xem/Xyr</option>
               <option value="Other">Other</option>
             </select><br><br>
+
+            <label for="profile">Profile picture:</label><br>
+            <img id="currentProfilePicture" src="" alt="Current Profile Picture" width="150"><br>
+            <input type="file" id="profile" accept="image/*"><br><br>
         </fieldset>
         </form> 
     </body>
