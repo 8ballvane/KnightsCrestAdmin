@@ -7,7 +7,11 @@
         <title>Update user file</title>
         <link rel="stylesheet" href="styles/styles.css">
         <script src="./scripts/firebase.js"></script>
+<<<<<<< Updated upstream
 <<<<<<< HEAD
+=======
+        <script src="./scripts/process_form.js"></script>
+>>>>>>> Stashed changes
         <script type = "module">
           /*
             import { getDatabase, ref, child, get, update } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
@@ -140,6 +144,7 @@
              const ucfid = urlParams.get('ucfid');
 
              const userRef = child(ref(database), `users/${ucfid}`);
+             console.log(userRef);
 
             // Retrieve the user's data from the database
             get(userRef).then((snapshot) => {
@@ -153,14 +158,21 @@
    document.myform.addEventListener("submit", deleteUser, false);
 }
 
-function deleteUser () {
-  event.preventDefault();
-    async function deleteUser() {
-            await remove(userRef);
-            alert("User data deleted successfully!");
-            window.location.href = "KnightsCrest_AdminHome.html";
-        }
-    };
+      function deleteUser () {
+        event.preventDefault();
+              //async function deleteUser() {
+           // await remove(userRef);
+        userRef.remove()
+           // alert("User data deleted successfully!");
+          //  window.location.href = "KnightsCrest_AdminHome.html";
+       .then(function() {
+          alert("User data deleted successfully!");
+          //  window.location.href = "KnightsCrest_AdminHome.html";
+          })
+        .catch(function(error) {
+         console.log("error deleting item");
+         })
+    }
 
 
 
