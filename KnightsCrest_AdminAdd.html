@@ -25,12 +25,108 @@
       return !userSnapshot.exists();
     }
 
+    async function verifyUniqueAttributes(libraryAccount, knightsCashAccount, ucfId) {
+      const usersRef = databaseRef(database, "users");
+      const usersSnapshot = await get(usersRef);
+      const usersData = usersSnapshot.val();
+      for (const key in usersData) {
+          const userData = usersData[key];
+          if (
+            userData.library_account === libraryAccount ||
+            userData.knights_cash_account === knightsCashAccount ||
+            userData.ucf_id === ucfId
+          ) {
+          return false;
+          }
+         }
+        return true;
+      }
+
+      // Generate account numbers
+      function generateRandomNumber(length) {
+        const min = Math.pow(10, length - 1);
+        const max = Math.pow(10, length) - 1;
+        return Math.floor(Math.random() * (max - min) + min);
+      }
+
+      async function generateUniqueLibraryAccount() {
+        let libraryAccount;
+        let isUnique = false;
+        while (!isUnique) {
+          libraryAccount = generateRandomNumber(13);
+          const usersRef = databaseRef(database, "users");
+          const usersSnapshot = await get(usersRef);
+          const usersData = usersSnapshot.val();
+          isUnique = true;
+        for (const key in usersData) {
+          if (usersData[key].library_account === libraryAccount) {
+          isUnique = false;
+          break;
+            }
+          }
+        }
+        return libraryAccount;
+      }
+
+      async function generateUniqueKnightsCashAccount() {
+        let knightsCashAccount;
+        let isUnique = false;
+      while (!isUnique) {
+        knightsCashAccount = generateRandomNumber(12);
+        const usersRef = databaseRef(database, "users");
+        const usersSnapshot = await get(usersRef);
+        const usersData = usersSnapshot.val();
+        isUnique = true;
+      for (const key in usersData) {
+        if (usersData[key].knights_cash_account === knightsCashAccount) {
+          isUnique = false;
+          break;
+          }
+        }
+      }
+      return knightsCashAccount;
+      }
+
+    async function generateUniqueNID(firstName, lastName) {
+      let nid;
+      let isUnique = false;
+      while (!isUnique) {
+        const randomNumber = generateRandomNumber(6);
+        nid = firstName[0] + lastName[0] + randomNumber;
+        isUnique = await verifyUser(nid);
+      }
+    return nid;
+    }
+
+    async function generateUniqueUCFID() {
+      let ucfID;
+      let isUnique = false;
+      while (!isUnique) {
+        ucfID = generateRandomNumber(7); // Assign the generated random number to ucfID
+        const usersRef = databaseRef(database, "users");
+        const usersSnapshot = await get(usersRef);
+        const usersData = usersSnapshot.val();
+        isUnique = true;
+        for (const key in usersData) {
+          if (usersData[key].ucf_id === ucfID) {
+            isUnique = false;
+           break;
+          }
+        }
+      }
+      return ucfID;
+    }
+
     async function addUser() {
-      if (await verifyUser(nid.value)) {
+      // Generate a NID value
+      const generatedNID = await generateUniqueNID(fname.value, lname.value);
+
+      if (await verifyUser(generatedNID) && await verifyUniqueAttributes(library.value, cash.value, id.value)) {
+  
         // Hash the nid value using SHA-256
-        const hashedNidValue = await hashPassword(nid.value);
+        const hashedNidValue = await hashPassword(generatedNID);
         password = hashedNidValue;
-        const uniqueId = nid.value;
+        const uniqueId = generatedNID;
         const storageRef = ref(storage, uniqueId);
         const metadata = {
           contentType: profile.type
@@ -46,7 +142,7 @@
           last_name: lname.value,
           pronouns: pronouns.value,
           ucf_id: id.value,
-          nid: nid.value,
+          nid: generatedNID,
           password: password,
           knights_cash_account: cash.value,
           library_account: library.value,
@@ -76,7 +172,7 @@
         birthday.value = "";
         profile.value = "";
       } else {
-        alert("User with the same NID already exists. Please enter a unique NID.");
+        alert("Library Account, Knights Cash Account, or UCF ID already exists. Please enter unique values.");
       }
     }
     
@@ -97,10 +193,12 @@
     let profileURL; 
     let caste;
 
-  function init() {    
+  async function init() {    
+    document.getElementById("library").value = await generateUniqueLibraryAccount();
+    document.getElementById("cash").value = await generateUniqueKnightsCashAccount();
+    document.getElementById("id").value = await generateUniqueUCFID();
     // Listen for the form submit event
-
-   document.myform.addEventListener("submit", function(event) {
+    document.myform.addEventListener("submit", function(event) {
     event.preventDefault();
 
     // Get the form elements
@@ -108,7 +206,6 @@
     lname = document.getElementById("lname");
     pronouns = document.getElementById("pronouns");
     id = document.getElementById("id");
-    nid = document.getElementById("nid");
     cash = document.getElementById("cash");
     library = document.getElementById("library");
     birthday = document.getElementById("birthday");
@@ -343,14 +440,11 @@ input[type=submit] {
       <label for="lname">Last name:</label><br>
       <input type="text" id="lname" name="lname" placeholder="Knight"><br><br>
 
-      <label for="nid">Student NID:</label><br>
-      <input type="text" id="nid" name="nid" placeholder="ik123456"><br><br>
-
       <label for="library">Library Account:</label><br>
       <input type="text" id="library" name="library" placeholder="2210347983785"><br><br>
 
       <label for="expiration">Expiration Date:</label><br>
-      <input type="text" id="expiration" name="expiration" placeholder="05/05/2023"><br>
+      <input type="text" id="expiration" name="expiration" placeholder="MM/YYYY"><br>
       
       <label for="profile">Profile picture:</label><br>
       <input type="file" id="profile" accept="image/*"><br><br>
