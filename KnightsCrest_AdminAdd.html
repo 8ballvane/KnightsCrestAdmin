@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head> 
-  <script src ="scripts/firebase.js"></script>
+  <script src="scripts/firebase.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js';
-    import { getDatabase, ref as databaseRef, set } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js';
+    import { getDatabase, ref as databaseRef, set, get } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js';
     import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js';
     
     // Initialize Firebase
@@ -13,6 +13,170 @@
     const database = getDatabase(app);
     const storage = getStorage(app);
 
+    async function hashPassword(nidValue) {
+      const hashedPassword = CryptoJS.SHA256(nidValue);
+      const hashedBase64 = hashedPassword.toString(CryptoJS.enc.Base64);
+      return hashedBase64;
+    }
+    
+    async function verifyUser(nidValue) {
+      const userRef = databaseRef(database, "users/" + nidValue);
+      const userSnapshot = await get(userRef);
+      return !userSnapshot.exists();
+    }
+
+    async function verifyUniqueAttributes(libraryAccount, knightsCashAccount, ucfId) {
+      const usersRef = databaseRef(database, "users");
+      const usersSnapshot = await get(usersRef);
+      const usersData = usersSnapshot.val();
+      for (const key in usersData) {
+          const userData = usersData[key];
+          if (
+            userData.library_account === libraryAccount ||
+            userData.knights_cash_account === knightsCashAccount ||
+            userData.ucf_id === ucfId
+          ) {
+          return false;
+          }
+         }
+        return true;
+      }
+
+      // Generate account numbers
+      function generateRandomNumber(length) {
+        const min = Math.pow(10, length - 1);
+        const max = Math.pow(10, length) - 1;
+        return Math.floor(Math.random() * (max - min) + min);
+      }
+
+      async function generateUniqueLibraryAccount() {
+        let libraryAccount;
+        let isUnique = false;
+        while (!isUnique) {
+          libraryAccount = generateRandomNumber(13);
+          const usersRef = databaseRef(database, "users");
+          const usersSnapshot = await get(usersRef);
+          const usersData = usersSnapshot.val();
+          isUnique = true;
+        for (const key in usersData) {
+          if (usersData[key].library_account === libraryAccount) {
+          isUnique = false;
+          break;
+            }
+          }
+        }
+        return libraryAccount;
+      }
+
+      async function generateUniqueKnightsCashAccount() {
+        let knightsCashAccount;
+        let isUnique = false;
+      while (!isUnique) {
+        knightsCashAccount = generateRandomNumber(12);
+        const usersRef = databaseRef(database, "users");
+        const usersSnapshot = await get(usersRef);
+        const usersData = usersSnapshot.val();
+        isUnique = true;
+      for (const key in usersData) {
+        if (usersData[key].knights_cash_account === knightsCashAccount) {
+          isUnique = false;
+          break;
+          }
+        }
+      }
+      return knightsCashAccount;
+      }
+
+    async function generateUniqueNID(firstName, lastName) {
+      let nid;
+      let isUnique = false;
+      while (!isUnique) {
+        const randomNumber = generateRandomNumber(6);
+        nid = firstName[0] + lastName[0] + randomNumber;
+        isUnique = await verifyUser(nid);
+      }
+    return nid;
+    }
+
+    async function generateUniqueUCFID() {
+      let ucfID;
+      let isUnique = false;
+      while (!isUnique) {
+        ucfID = generateRandomNumber(7); // Assign the generated random number to ucfID
+        const usersRef = databaseRef(database, "users");
+        const usersSnapshot = await get(usersRef);
+        const usersData = usersSnapshot.val();
+        isUnique = true;
+        for (const key in usersData) {
+          if (usersData[key].ucf_id === ucfID) {
+            isUnique = false;
+           break;
+          }
+        }
+      }
+      return ucfID;
+    }
+
+    async function addUser() {
+      // Generate a NID value
+      const generatedNID = await generateUniqueNID(fname.value, lname.value);
+
+      if (await verifyUser(generatedNID) && await verifyUniqueAttributes(library.value, cash.value, id.value)) {
+  
+        // Hash the nid value using SHA-256
+        const hashedNidValue = await hashPassword(generatedNID);
+        password = hashedNidValue;
+        const uniqueId = generatedNID;
+        const storageRef = ref(storage, uniqueId);
+        const metadata = {
+          contentType: profile.type
+        };
+
+        const snapshot = await uploadBytes(storageRef, profile, metadata);
+        // get the download url after the file has been uploaded
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        profileURL = downloadURL;
+        
+        await set(databaseRef(database, "users/"+uniqueId), {
+          first_name: fname.value,
+          last_name: lname.value,
+          pronouns: pronouns.value,
+          ucf_id: id.value,
+          nid: generatedNID,
+          password: password,
+          knights_cash_account: cash.value,
+          library_account: library.value,
+          date_of_birth: birthday.value,
+          expiration_date: expiration.value,
+          caste: caste,
+          campus: campus.value,
+          profile_picture: downloadURL,
+          kc_balance: {
+            balance: 0
+          },
+          kc_transactions: 0,
+          library_loans: 0,
+          library_request: 0,
+          fine_balance: 0
+        });
+
+        // Show a success message to the user
+        alert("Record added successfully!");
+        // Reset the form fields
+        fname.value = "";
+        lname.value = "";
+        id.value = "";
+        nid.value = "";
+        cash.value = "";
+        library.value = "";
+        birthday.value = "";
+        profile.value = "";
+      } else {
+        alert("Library Account, Knights Cash Account, or UCF ID already exists. Please enter unique values.");
+      }
+    }
+    
+    
     // Container variables
     let fname;
     let lname;
@@ -29,15 +193,12 @@
     let profileURL; 
     let caste;
 
-    async function hashPassword(nidValue) {
-      const hashedPassword = CryptoJS.SHA256(nidValue);
-      const hashedBase64 = hashedPassword.toString(CryptoJS.enc.Base64);
-      return hashedBase64;
-    }
-
-    function init() {    
+  async function init() {    
+    document.getElementById("library").value = await generateUniqueLibraryAccount();
+    document.getElementById("cash").value = await generateUniqueKnightsCashAccount();
+    document.getElementById("id").value = await generateUniqueUCFID();
     // Listen for the form submit event
-   document.myform.addEventListener("submit", function(event) {
+    document.myform.addEventListener("submit", function(event) {
     event.preventDefault();
 
     // Get the form elements
@@ -45,70 +206,16 @@
     lname = document.getElementById("lname");
     pronouns = document.getElementById("pronouns");
     id = document.getElementById("id");
-    nid = document.getElementById("nid");
     cash = document.getElementById("cash");
     library = document.getElementById("library");
     birthday = document.getElementById("birthday");
     expiration = document.getElementById("expiration");
     campus = document.getElementById("campus");
     profile = document.getElementById("profile").files[0];
-    caste = document.querySelector('input[name="caste"]:checked').value;
-    // Hash the nid value using SHA-256
-    hashPassword(nid.value)
-        .then((hashedNidValue) => {
-            password = hashedNidValue;
-            const uniqueId = nid.value;
-            const storageRef = ref(storage, uniqueId);
-            const metadata = {
-                contentType: profile.type
-            };
-            uploadBytes(storageRef, profile, metadata).then((snapshot) => {
-                // get the download url after the file has been uploaded
-                getDownloadURL(snapshot.ref).then((downloadURL) => {
-                    profileURL = downloadURL;
-                    set(databaseRef(database, "users/"+uniqueId),{
-                      first_name: fname.value,
-                      last_name: lname.value,
-                      pronouns: pronouns.value,
-                      ucf_id: id.value,
-                      nid: nid.value,
-                      password: password,
-                      knights_cash_account: cash.value,
-                      library_account: library.value,
-                      date_of_birth: birthday.value,
-                      expiration_date: expiration.value,
-                      caste: caste,
-                      campus: campus.value,
-                      profile_picture: downloadURL,
-                      kc_balance: {
-                        balance: 0
-                      },
-                      kc_transactions: 0,
-                      library_loans: 0,
-                      library_request: 0,
-                      fine_balance: 0
-                      }).then(()=>{
-                        // Show a success message to the user
-                        alert("Record added successfully!");
-                        // Reset the form fields
-                        fname.value = "";
-                        lname.value = "";
-                        id.value = "";
-                        nid.value = "";
-                        cash.value = "";
-                        library.value = "";
-                        birthday.value = "";
-                        profile.value = "";
-                    }).catch((error) => {
-                        console.log(error);
-                    });
-                });
-            });
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    });
+    caste = document.getElementById("caste").value;
+    addUser();
+  })
+
 }
 window.addEventListener("load", init, false);
 </script>
@@ -130,6 +237,7 @@ window.addEventListener("load", init, false);
     display: flex;
     align-items: center; 
 }
+
 
 .ucf_logos {
   padding-bottom: 10px;
@@ -210,7 +318,7 @@ window.addEventListener("load", init, false);
 /*style ADD RECORDS title*/
 #title {
     padding-top: 25px;
-    font-family: "arial";
+    font-family: "Lora-Regular.ttf";
     border-bottom: 1px dotted #333;
     color: gray;
     margin-left: 200px;
@@ -307,7 +415,7 @@ input[type=submit] {
       <input type="text" id="cash" name="cash" placeholder="600912347596"><br><br>
 
       <label for="birthday">Date of Birth:</label><br>
-      <input type="text" id="birthday" name="birthday" placeholder="01/01/2001"><br><br>
+      <input type="text" id="birthday" name="birthday" placeholder="MM/DD/YYYY"><br><br>
 
       <label for="pronouns">Preferred pronoun:</label><br>
       <select id="pronouns">
@@ -333,25 +441,22 @@ input[type=submit] {
       <label for="lname">Last name:</label><br>
       <input type="text" id="lname" name="lname" placeholder="Knight"><br><br>
 
-      <label for="nid">Student NID:</label><br>
-      <input type="text" id="nid" name="nid" placeholder="ik123456"><br><br>
-
       <label for="library">Library Account:</label><br>
       <input type="text" id="library" name="library" placeholder="2210347983785"><br><br>
 
       <label for="expiration">Expiration Date:</label><br>
-      <input type="text" id="expiration" name="expiration" placeholder="05/05/2023"><br>
+      <input type="text" id="expiration" name="expiration" placeholder="MM/YYYY"><br>
       
       <label for="profile">Profile picture:</label><br>
-      <input type="file" id="profile" accept="image/*">
-    
-    <h3>Caste</h3>
-     <input type="radio" id="student" name="caste" value="Student">
-     <label for="student">Student</label><br>
-     <input type="radio" id="teacher" name="caste" value="Teacher">
-     <label for="teacher">Teacher</label><br>
-     <input type="radio" id="staff" name="caste" value="Staff">
-     <label for="staff">Staff</label><br>
+      <input type="file" id="profile" accept="image/*"><br><br>
+
+      <label for="caste">Caste:</label><br>
+      <select id ="caste">
+        <option value="" disabled selected>Select caste</option>
+        <option value="Student">Student</option>
+        <option value="Teacher">Teacher</option>
+        <option value="Staff">Staff</option>
+      </select><br><br>
 
     </div>
       <input type="submit" value="Add Record">

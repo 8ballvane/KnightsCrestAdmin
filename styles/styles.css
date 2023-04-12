@@ -80,7 +80,7 @@ body{
 /*style SEARCH RECORDS title*/
 #title {
     padding-top: 25px;
-    font-family: "arial";
+    font-family: "GothamBook.ttf";
     border-bottom: 1px dotted #333;
     color: gray;
     margin-left: 200px;
@@ -153,6 +153,7 @@ fieldset{
   float: left;
   width: 50%;
   padding: 10px;
+  margin: 0;
 }
 
 .row:after {
@@ -174,6 +175,8 @@ fieldset{
   padding-left: 40%;
   padding-top: 10px;
   font-size: small;
+  margin: 0;
+  font-family: "GothamBook.ttf";
 }
 
 
@@ -183,16 +186,7 @@ fieldset{
   padding-left: 40%;
 }
 
-
-
-
-
-/* .users {
-  padding: 70px;
-  font-size: small;
-} */
-
-/* .resultsTable, thead, tr, th::after{
-  padding: 57px;
-  font-size: small;
-} */
+.error-message {
+  color: red;
+  font-size: 0.8em;
+}

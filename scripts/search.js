@@ -75,13 +75,13 @@ var dob = document.querySelector('#birthday').value;
         var cashNumberCell = document.createElement('td');
         var libraryNumberCell = document.createElement('td');
         var dobCell = document.createElement('td');
-        var ucfidLink = document.createElement('a');
+        var nidLink = document.createElement('a');
         firstNameCell.appendChild(document.createTextNode(result.first_name));
         lastNameCell.appendChild(document.createTextNode(result.last_name));
-        nidCell.appendChild(document.createTextNode(result.nid));
-        ucfidLink.href = "user.html?ucfid=" + encodeURIComponent(result.nid);
-        ucfidLink.appendChild(document.createTextNode(result.ucf_id));
-        ucfidCell.appendChild(ucfidLink);
+        nidLink.href = "user.html?nid=" + encodeURIComponent(result.nid);
+        nidLink.appendChild(document.createTextNode(result.nid));
+        nidCell.appendChild(nidLink);
+        ucfidCell.appendChild(document.createTextNode(result.ucf_id));
         campusCell.appendChild(document.createTextNode(result.campus));
         cashNumberCell.appendChild(document.createTextNode(result.knights_cash_account));
         libraryNumberCell.appendChild(document.createTextNode(result.library_account));
@@ -101,9 +101,9 @@ var dob = document.querySelector('#birthday').value;
       // Check if a table row was clicked
       if (event.target.nodeName === 'td') {
       // Get the UCF ID of the user from the table cell
-      var ucfid = event.target.parentNode.querySelector('td:nth-child(4)').textContent;
+      let nid = event.target.parentNode.querySelector('td:nth-child(3)').textContent;
       // Redirect to the user's data page with the UCF ID as a query parameter
-      window.location.href = 'user.html?ucfid=' + ucfid;
+      window.location.href = 'user.html?nid=' + nid;
   }
 });
 
