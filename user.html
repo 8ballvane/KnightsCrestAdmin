@@ -55,6 +55,14 @@
 
                 // Flag to determine if there is an input error
                 let hasError = false;
+
+                // Regular expressions for validation
+                const firstNameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\s-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/u;
+                const dobRegex = /^(0[1-9]|[12][0-9]|3[01])[-/](0[1-9]|1[012])[-/](19|20)\d\d$/;
+                const expirationDateRegex = /^(0[1-9]|1[012])[-/](19|20)\d\d$/;
+                const libraryAccountRegex = /^\d{13}$/;
+                const knightsCashAccountRegex = /^\d{12}$/;
+
                 // Get error message elements
                 const firstNameError = document.getElementById("firstNameError");
                 const dobError = document.getElementById("dobError");
@@ -89,23 +97,23 @@
                 const userRef = child(dbRef, `users/${myUser.nid}`);
 
                 // Validate input fields
-                 if (firstName && !firstNameRegex.test(firstName)) {
+                 if (firstNameInput.value && !firstNameRegex.test(firstNameInput.value)) {
                   firstNameError.textContent = "Invalid first name. Please enter a valid name.";
                   hasError = true;
                 }
-                if (dob && !dobRegex.test(dob)) {
+                if (dobInput.value && !dobRegex.test(dobInput.value)) {
                   dobError.textContent = "Invalid date of birth. Please enter a valid date in the format DD/MM/YYYY.";
                   hasError = true;
                 }
-                if (expiration && !expirationDateRegex.test(expiration)) {
+                if (expirationInput.value && !expirationDateRegex.test(expirationInput.value)) {
                   expirationError.textContent = "Invalid expiration date. Please enter a valid date in the format MM/YYYY.";
                   hasError = true;
                 }
-                if (library && !libraryAccountRegex.test(library)) {
+                if (libraryInput.value && !libraryAccountRegex.test(libraryInput.value)) {
                   libraryError.textContent = "Invalid library number. Please enter a 13-digit library number.";
                   hasError = true;
                 }
-                if (knightsCash && !knightsCashAccountRegex.test(knightsCash)) {
+                if (cashInput.value && !knightsCashAccountRegex.test(cashInput.value)) {
                   knightsCashError.textContent = "Invalid Knights Cash account number. Please enter a 12-digit account number.";
                   hasError = true;
                 }
@@ -198,17 +206,18 @@
         <form name="update">
           <fieldset>
         <div class="column">
-        <label for="firstName">First name:</label><br>
+
+        <label for="firstName">First name: </label><span class="error-message" id="firstNameError"></span><br>
         <input type="text" id='firstName' name="firstName" placeholder="First Name"><br><br>
-        <span class="error-message" id="firstNameError"></span>
         
-        <label for="cash">Knights Cash Account:</label><br>
+        
+        <label for="cash">Knights Cash Account: </label><span class="error-message" id="knightsCashError"></span><br>
         <input type="text" id="cash" name="cash" placeholder=""><br><br>
-        <span class="error-message" id="knightsCashError"></span>
+        
     
-        <label for="dob">Date of Birth:</label><br>
+        <label for="dob">Date of Birth: </label><span class="error-message" id="dobError"></span><br>
         <input type="text" id="dob" name="dob" placeholder="DD/MM/YYYY"><br><br>
-        <span class="error-message" id="dobError"></span>
+        
 
         <label for="campus">Campus:</label><br>
         <select id="campus">
@@ -223,16 +232,13 @@
         <input type="button"  id="delete" name="submit" value="Delete">
 
         </div>
-    
-            <label for="library">Library Number:</label><br>
+            <label for="library">Library Number: </label><span class="error-message" id="libraryError"></span><br>
             <input type="text" id="library" name="library" placeholder="2210347983785"><br><br>
-            <span class="error-message" id="libraryError"></span>
-
-            <label for="expiration">Expiration Date:</label><br>
+            
+            <label for="expiration">Expiration Date: </label><span class="error-message" id="expirationError"></span><br>
             <input type="text" id="expiration" name="expiration" placeholder="05/23/2025"><br><br>
-            <span class="error-message" id="expirationError"></span>
-
-            <label for="caste">Caste:</label><br>
+            
+            <label for="caste">Caste: </label><br>
             <select id ="caste">
               <option value="" disabled selected>Select caste</option>
               <option value="Student">Student</option>
@@ -240,7 +246,7 @@
               <option value="Staff">Staff</option>
             </select><br><br>
 
-            <label for="pronouns">Preferred pronoun:</label><br>
+            <label for="pronouns">Preferred pronoun: </label><br>
             <select id="pronouns">
               <option value="" disabled selected>Select pronoun</option>
               <option value="He/Him/His">He/Him/His</option>
