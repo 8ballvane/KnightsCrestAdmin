@@ -207,21 +207,21 @@
           }
     
     
-      // Container variables
-      let fname;
-      let lname;
-      let pronouns;
-      let password;
-      let id;
-      let nid;
-      let cash;
-      let library;
-      let birthday;
-      let expiration;
-      let campus;
-      let profile; 
-      let profileURL; 
-      let caste;
+        // Container variables
+        let fname;
+        let lname;
+        let pronouns;
+        let password;
+        let id;
+        let nid;
+        let cash;
+        let library;
+        let birthday;
+        let expiration;
+        let campus;
+        let profile; 
+        let profileURL; 
+        let caste;
 
       async function init() {    
         document.getElementById("library").value = await generateUniqueLibraryAccount();
@@ -405,7 +405,6 @@ input[type=submit] {
               </div>
         </div>
     </div>
-    
     <div class="sidenav">
       <img id = "profile_pic" src="admin/Add New User/Component 31. 3.png" alt="Profile Pic">
     
@@ -429,24 +428,29 @@ input[type=submit] {
       </div>
 
       <div class = "main">
-     
+
 <div class="row">
   <form action="#" method="post" name="myform">
     <fieldset>
       <div class="column">
-      <label for="fname">First name:</label><br>
+      <label for="fname">First name: </label>
+      <span class="error-message" id="firstNameError"></span><br>
       <input type="text" id="fname" name="fname" placeholder="Ima"><br><br>
 
-      <label for="id">UCF ID:</label><br>
+      <label for="id">UCF ID: </label>
+      <span class="error-message" id="ucfIDError"></span><br>
       <input type="text" id="id" name="id" placeholder="1234567"><br><br>
     
-      <label for="cash">Knights Cash Account:</label><br>
+      <label for="cash">Knights Cash Account: </label>
+      <span class="error-message" id="knightsCashError"></span><br>
       <input type="text" id="cash" name="cash" placeholder="600912347596"><br><br>
 
-      <label for="birthday">Date of Birth:</label><br>
+      <label for="birthday">Date of Birth: </label>
+      <span class="error-message" id="dobError"></span><br>
       <input type="text" id="birthday" name="birthday" placeholder="MM/DD/YYYY"><br><br>
 
-      <label for="pronouns">Preferred pronoun:</label><br>
+      <label for="pronouns">Preferred pronoun: </label>
+      <span class="error-message" id="dobError"></span><br>
       <select id="pronouns">
         <option value="" disabled selected>Select pronoun</option>
         <option value="He/Him/His">He/Him/His</option>
@@ -457,7 +461,8 @@ input[type=submit] {
         <option value="Other">Other</option>
       </select><br><br>
 
-      <label for="campus">Campus:</label><br>
+      <label for="campus">Campus: </label>
+      <span class="error-message" id="campusError"></span><br>
       <select id="campus">
         <option value="" disabled selected>Select a campus</option>
         <option value="Main Campus">UCF Main Campus</option>
@@ -467,37 +472,25 @@ input[type=submit] {
       </select><br>
       </div>
       <div class="column">
-      <label for="lname">Last name:</label><br>
+      <label for="lname">Last name:</label><span class="error-message" id="lastNameError"></span><br>
       <input type="text" id="lname" name="lname" placeholder="Knight"><br><br>
 
-      <label for="library">Library Account:</label><br>
+      <label for="library">Library Account:</label><span class="error-message" id="libraryError"></span><br>
       <input type="text" id="library" name="library" placeholder="2210347983785"><br><br>
 
-      <label for="expiration">Expiration Date:</label><br>
+      <label for="expiration">Expiration Date:</label><span class="error-message" id="expirationError"></span><br>
       <input type="text" id="expiration" name="expiration" placeholder="MM/YYYY"><br>
       
-      <label for="profile">Profile picture:</label><br>
-<<<<<<< Updated upstream
+      <label for="profile">Profile picture:</label><span class="error-message" id="profileError"></span><br>
       <input type="file" id="profile" accept="image/*"><br><br>
 
-      <label for="caste">Caste:</label><br>
+      <label for="caste">Caste:</label><span class="error-message" id="dobError"></span><br>
       <select id ="caste">
         <option value="" disabled selected>Select caste</option>
         <option value="Student">Student</option>
         <option value="Teacher">Teacher</option>
         <option value="Staff">Staff</option>
       </select><br><br>
-=======
-      <input type="file" id="profile" accept="image/*">
-    
-    <h3>Caste</h3>
-     <input type="radio" id="caste" name="caste" value="Student">
-     <label for="student">Student</label><br>
-     <input type="radio" id="caste" name="caste" value="Teacher">
-     <label for="teacher">Teacher</label><br>
-     <input type="radio" id="caste" name="caste" value="Staff">
-     <label for="staff">Staff</label><br>
->>>>>>> Stashed changes
 
     </div>
       <input type="submit" value="Add Record">
@@ -505,7 +498,7 @@ input[type=submit] {
   </form> 
 
   
-  </div> 
-      </div>
+    </div> 
+    </div>
 </body>
 </html>
