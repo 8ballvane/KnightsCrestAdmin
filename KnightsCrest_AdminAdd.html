@@ -238,15 +238,15 @@
             library_account: library.value,
             date_of_birth: birthday.value,
             expiration_date: expiration.value,
-            caste: caste,
+            caste: caste.value,
             campus: campus.value,
             profile_picture: downloadURL,
             kc_balance: {
               balance: 0
             },
-            kc_transactions: [],
-            library_loans: [],
-            library_request: [],
+            kc_transactions: [{empty: true}],
+            library_loans: [{empty: true}],
+            library_request: [{empty: true}],
             fine_balance: 0
             });
 
@@ -266,8 +266,7 @@
             }
           }
         }
-    
-    
+
         // Container variables
         let fname;
         let lname;
@@ -303,153 +302,14 @@
         expiration = document.getElementById("expiration");
         campus = document.getElementById("campus");
         profile = document.getElementById("profile").files[0];
-        caste = document.getElementById("caste").value;
+        caste = document.getElementById("caste");
         addUser();
       })
     }
 window.addEventListener("load", init, false);
 </script>
+<link rel="stylesheet" href="styles/styles.css">
 
-<style>
-  body {
-    margin: 0; 
-  }
-.banner {
-    background-color: black;
-  
-  }
-
-  /*style banner logo*/
-
-.ucf_banner {
-    padding: 0px;
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    align-items: center; 
-}
-.ucf_text {
-  line-height: 1.5;
-  font-family: "GothamBook.ttf";
-  color: #ffc904;
-  font-size: small;
-  font-kerning: initial;
-  letter-spacing: .2rem;
-}
-
-.ucf_logos {
-  padding-bottom: 10px;
-  margin-left: 50px;
-}
-
-/*style top menu*/
-.top_menu {
-  margin-left: 900px;
-}
-
-/*style side bar*/
-.sidenav {
-  height: 130%;
-  width: 160px;
-  position: absolute;
-  left: 0;
-  background-color: rgb(163, 163, 163);
-  overflow-x: hidden;
-  padding-top: 5px;
-}
-
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 50px;}
-  .sidenav a {font-size: 14px;}
-}
-
-* {
-  box-sizing: border-box;
-}
-
-/* Create two equal columns that floats next to each other */
-.column {
-  float: left;
-  width: 50%;
-  padding: 10px;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/*style side bar buttons*/
-#button
-{
-  background-color: transparent;
-  border: none;
-}
-
-/*style profile pic*/
-#profile_pic {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-}
-
-/*style FUNCTION title*/
-#sidebar_title {
- color:#333;
- text-align: center;
- border-bottom: 1px solid #333;
- padding-bottom: 5px;
- margin-left: 20px;
- margin-right: 20px;
-}
-
-.main {
-  margin-left: 200px;
-  margin-right: 30px;
-  padding-top: 5px;
-  border: 1px solid gray ;
-}
-
-/*style ADD RECORDS title*/
-#title {
-    padding-top: 25px;
-    font-family: "Lora-Regular.ttf";
-    border-bottom: 1px dotted #333;
-    color: gray;
-    margin-left: 200px;
-    margin-right: 30px;
-}
-
-/*style form*/
-input[type=text] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-  background-color: rgba(211, 211, 211, 0.623);
-  height: 20px;
-  width: 350px;
-  border-radius: 5px;
-  border: 1px solid rgb(154, 154, 154);
-  box-shadow: 0 4px 0px -6px grey;
-}
-
-input[type=submit] {
-  background-color: #ffc904;
-  font-size: large;
-  color: #333;
-  border-radius: 5px;
-  border: none;
-  padding: 8px;
-  margin-left: 10px;
-}
- fieldset {
-  border: none;
- }
-</style>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
