@@ -309,10 +309,10 @@
     }
 window.addEventListener("load", init, false);
 </script>
-<link rel="stylesheet" href="styles/styles.css">
+
 <style>
   body {
-    margin:0; 
+    margin: 0; 
   }
 .banner {
     background-color: black;
@@ -328,7 +328,14 @@ window.addEventListener("load", init, false);
     display: flex;
     align-items: center; 
 }
-
+.ucf_text {
+  line-height: 1.5;
+  font-family: "GothamBook.ttf";
+  color: #ffc904;
+  font-size: small;
+  font-kerning: initial;
+  letter-spacing: .2rem;
+}
 
 .ucf_logos {
   padding-bottom: 10px;
@@ -337,18 +344,18 @@ window.addEventListener("load", init, false);
 
 /*style top menu*/
 .top_menu {
-  margin-left: 800px;
+  margin-left: 900px;
 }
 
 /*style side bar*/
 .sidenav {
-  height: 100%;
+  height: 130%;
   width: 160px;
-  position: fixed;
+  position: absolute;
   left: 0;
   background-color: rgb(163, 163, 163);
   overflow-x: hidden;
-  padding-top: 0px;
+  padding-top: 5px;
 }
 
 @media screen and (max-height: 450px) {
@@ -449,24 +456,24 @@ input[type=submit] {
 <title>Create users</title>
 </head>
 <body>
-    <div class="banner">
-        <div class="ucf_banner">
-            <div class="ucf_logos"> 
-              <img src="admin/User Search/The tab crop.png" alt="logo" width="50">
-            <img src="admin/User Search/KNIGHTS CREST.png" alt="logo" height ="32">
-            </div>
+  <div class="banner">
+    <div class="ucf_banner">
+      <img src="admin/User Search/The tab crop.png" alt="logo" width="50">
+        <div class="ucf_text">
+        <p>UNIVERSITY OF CENTRAL FLORIDA</p>
+        </div>      
+<div class = "top_menu">
+    <a href = "KnightsCrest_AdminUserSettings.html">
+    <img src = "Admin/Dashboard/Icon material-settings.png" alt="settings" width="25"> 
 
-            <div class = "top_menu">
-              <a href = "KnightsCrest_AdminUserSettings.html">
-                <img src = "Admin/Dashboard/Icon material-settings.png" alt="settings" width="25"> 
-              </a>
-                
-                <a href = "KnightsCrest_Admin.html">
-                <img src = "Admin/Dashboard/Icon ionic-md-exit.png" alt="settings" width="24">
-                </a>
-              </div>
-        </div>
+    <a href = "KnightsCrest_Admin.html">
+    <img src = "Admin/Dashboard/Icon ionic-md-exit.png" alt="settings" width="24">
+    </a>
+      </div>
     </div>
+  </div>
+</div>
+
     <div class="sidenav">
       <img id = "profile_pic" src="admin/Add New User/Component 31. 3.png" alt="Profile Pic">
     
@@ -474,12 +481,13 @@ input[type=submit] {
 
         <a href = "KnightsCrest_AdminHome.html">
         <button id = "button">
+         
           <img src="admin/User Search/Search Records Button.png" alt="Search Records">
        </button>
-        </a>
-
+      </a>
        <a href = "KnightsCrest_AdminAdd.html">
        <button id = "button">
+        
         <img src="admin/User Search/Add Record Button.png" alt="Add Records">
      </button>
        </a>

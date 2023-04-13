@@ -17,16 +17,24 @@ body{
     display: flex;
     align-items: center; 
 }
+.ucf_text {
+  line-height: 1.5;
+  font-family: "GothamBook.ttf";
+  color: #ffc904;
+  font-size: small;
+  font-kerning: initial;
+  letter-spacing: .2rem;
+}
 
 .ucf_logos {
   padding-bottom: 10px;
   margin-left: 50px;
 }
 
-/*style top menu*/
-.top_menu {
-  margin-left: 800px;
+.top_menu{
+  margin-left: 900px;
 }
+
 
 /*style side bar*/
 .sidenav {
@@ -39,8 +47,8 @@ body{
   padding-top: 5px;
 }
 
-@media screen and (max-height: 600px) {
-  .sidenav {padding-top: 70px;}
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 50px;}
   .sidenav a {font-size: 14px;}
 }
 
