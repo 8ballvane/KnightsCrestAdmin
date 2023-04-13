@@ -21,40 +21,98 @@
     
     async function verifyUser() {
       
-        // Regular expressions for validation
-        const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\s-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/u;
-        const dobRegex = /^(0[1-9]|[12][0-9]|3[01])[-/](0[1-9]|1[012])[-/](19|20)\d\d$/;
-        const expirationDateRegex = /^(0[1-9]|1[012])[-/](19|20)\d\d$/;
-        const libraryAccountRegex = /^\d{13}$/;
-        const knightsCashAccountRegex = /^\d{12}$/;
-        const ucfIDCashAccountRegex = /^\d{7}$/;
-
-        // Get error message elements
-        const firstNameError = document.getElementById("firstNameError");
-        const lastNameError = document.getElementById("lastNameError"); 
-        const ucfIDError = document.getElementById("dobError");        
-        const libraryError = document.getElementById("libraryError");
-        const knightsCashError = document.getElementById("knightsCashError");
-        const expirationError = document.getElementById("expirationError");
-        const dobError = document.getElementById("dobError");
-        const profileError = document.getElementById("profileError");
-        const pronounError = document.getElementById("pronounError");
-        const campusError = document.getElementById("campusError");
-
-        // Clear previous error messages
-        firstNameError.textContent = "";
-        lastNameError.textContent = ""; 
-        ucfIDError.textContent = "";
-        libraryError.textContent = "";
-        knightsCashError.textContent = "";
-        expirationError.textContent = "";
-        dobError.textContent = "";
-        profileError.textContent = "";
-        pronounError.textContent = "";
-        campusError.textContent = "";
-
-        
-
+      // Regular expressions for validation
+      const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\s-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/u;
+      const dobRegex = /^(0[1-9]|[12][0-9]|3[01])[-/](0[1-9]|1[012])[-/](19|20)\d\d$/;
+      const expirationDateRegex = /^(0[1-9]|1[012])[-/](19|20)\d\d$/;
+      const libraryAccountRegex = /^\d{13}$/;
+      const knightsCashAccountRegex = /^\d{12}$/;
+      const ucfIDCashAccountRegex = /^\d{7}$/;
+    
+      // Get error message elements
+      const firstNameError = document.getElementById("firstNameError");
+      const lastNameError = document.getElementById("lastNameError"); 
+      const ucfIDError = document.getElementById("ucfIDError");        
+      const libraryError = document.getElementById("libraryError");
+      const knightsCashError = document.getElementById("knightsCashError");
+      const expirationError = document.getElementById("expirationError");
+      const dobError = document.getElementById("dobError");
+      const profileError = document.getElementById("profileError");
+      const pronounError = document.getElementById("pronounError");
+      const campusError = document.getElementById("campusError");
+      const casteError = document.getElementById("casteError");
+    
+      // Clear previous error messages
+      firstNameError.textContent = "";
+      lastNameError.textContent = ""; 
+      ucfIDError.textContent = "";
+      libraryError.textContent = "";
+      knightsCashError.textContent = "";
+      expirationError.textContent = "";
+      dobError.textContent = "";
+      profileError.textContent = "";
+      pronounError.textContent = "";
+      campusError.textContent = "";
+      casteError.textContent = "";
+    
+      // Validate input
+      let isValid = true;
+    
+      if (!nameRegex.test(fname.value) || fname.value === "") {
+        firstNameError.textContent = "Invalid first name.";
+        isValid = false;
+      }
+    
+      if (!nameRegex.test(lname.value) || lname.value === "") {
+        lastNameError.textContent = "Invalid last name.";
+        isValid = false;
+      }
+    
+      if (!ucfIDCashAccountRegex.test(id.value) || id.value === "") {
+        ucfIDError.textContent = "Invalid UCF ID.";
+        isValid = false;
+      }
+    
+      if (!libraryAccountRegex.test(library.value) || library.value === "") {
+        libraryError.textContent = "Invalid library account.";
+        isValid = false;
+      }
+    
+      if (!knightsCashAccountRegex.test(cash.value) || cash.value === "") {
+        knightsCashError.textContent = "Invalid Knights Cash account.";
+        isValid = false;
+      }
+    
+      if (!expirationDateRegex.test(expiration.value) || expiration.value === "") {
+        expirationError.textContent = "Invalid expiration date.";
+        isValid = false;
+      }
+    
+      if (!dobRegex.test(birthday.value) || birthday.value === "") {
+        dobError.textContent = "Invalid date of birth.";
+        isValid = false;
+      }
+    
+      if (!profile) {
+        profileError.textContent = "Profile picture is required.";
+        isValid = false;
+      }
+    
+      if (!pronouns.value) {
+        pronounError.textContent = "Please select a pronoun.";
+        isValid = false;
+      }
+    
+      if (!campus.value) {
+        campusError.textContent = "Please select a campus.";
+        isValid = false;
+      }
+      if (!caste.value) {
+        casteError.textContent = "Please select a caste.";
+        isValid = false;
+      }
+    
+      return isValid;
     }
 
     async function verifyUniqueAttributes(libraryAccount, knightsCashAccount, ucfId) {
@@ -151,11 +209,13 @@
 
       async function addUser() {
 
+      if(await verifyUser()){
+        if (await verifyUniqueAttributes(library.value, cash.value, id.value)) {
+          // Hash the nid value using SHA-256        
+          
         // Generate a NID value
         const generatedNID = await generateUniqueNID(fname.value, lname.value);
 
-        if (await verifyUser() && await verifyUniqueAttributes(library.value, cash.value, id.value)) {
-          // Hash the nid value using SHA-256
           const hashedNidValue = await hashPassword(generatedNID);
           password = hashedNidValue;
           const uniqueId = generatedNID;
@@ -205,6 +265,7 @@
             alert("Library Account, Knights Cash Account, or UCF ID already exists. Please enter unique values.");
             }
           }
+        }
     
     
         // Container variables
@@ -248,6 +309,7 @@
     }
 window.addEventListener("load", init, false);
 </script>
+<link rel="stylesheet" href="styles/styles.css">
 <style>
   body {
     margin:0; 
@@ -450,7 +512,7 @@ input[type=submit] {
       <input type="text" id="birthday" name="birthday" placeholder="MM/DD/YYYY"><br><br>
 
       <label for="pronouns">Preferred pronoun: </label>
-      <span class="error-message" id="dobError"></span><br>
+      <span class="error-message" id="pronounError"></span><br>
       <select id="pronouns">
         <option value="" disabled selected>Select pronoun</option>
         <option value="He/Him/His">He/Him/His</option>
@@ -484,7 +546,7 @@ input[type=submit] {
       <label for="profile">Profile picture:</label><span class="error-message" id="profileError"></span><br>
       <input type="file" id="profile" accept="image/*"><br><br>
 
-      <label for="caste">Caste:</label><span class="error-message" id="dobError"></span><br>
+      <label for="caste">Caste:</label><span class="error-message" id="casteError"></span><br>
       <select id ="caste">
         <option value="" disabled selected>Select caste</option>
         <option value="Student">Student</option>
