@@ -4,22 +4,30 @@
 <style>
 body {
   margin: 0;
+
+}
+
+/* .row {
+  position: sticky;
 }
 
 .row:after {
   content: "";
   display: table;
   clear: both;
-}
-.column {
+  table-layout: fixed;
+
+  
+} */
+/* .column {
   float: left;
   width: 50%;
   padding: 10px;
-}
+  position:fixed;
+} */
 
 .banner {
   background-color: black;
-
 }
 
 .ucf_text {
@@ -33,10 +41,11 @@ body {
 
 .ucf_banner {
     padding: 0px;
-    max-width: 100%;
+    width: 100%;
     margin:  0 auto;
     display:flex;
     align-items: center;   
+    
 }
 
 #title {
@@ -71,6 +80,7 @@ h1 {
   border-radius: 5px;
   margin-bottom: 20px;
   column-gap: 400px;
+  position: fixed;
 }
 
 /*edit url connection box*/
@@ -79,13 +89,15 @@ h1 {
   width: 350px;
   box-shadow: 0 8px 6px -6px grey;
   padding: 13px;
-  margin-top: -8px;
+  display: block;
+  margin-top: 20px;
   margin-left: 60%;
   font-family: "Arial";
   font-size: 14px;
   border-radius: 5px;
   text-align: center;
   font-weight: normal;
+  position: fixed;
 }
 
 /*edit gray link box*/
@@ -95,28 +107,35 @@ h1 {
   width: 350px;
   box-shadow: 0 8px 6px -6px grey;
   padding: 15px;
-  margin-top: -10%;;
+  margin-top: 165px;;
   margin-left: 60%;
   font-family: "Arial";
   font-size: 14px;
   border-radius: 5px;
   text-align: left;
   font-weight: normal;
+  position: fixed;
   /* table-layout: auto; */
 }
 
 /*edit ucf policy blurb*/
 .column4 {
   padding: -40px;
-  margin-top: -15px;
-  margin-left: -55%;
-  height: 50px
+  margin-top: 285px;
+  margin-left: 170px;
+  height: 50px;
+  position:fixed;
+  
+  /* display: block; */
+
 }
 
 .ucflogo {
   display: block;
-  margin-left: auto;
+  margin-left: 500px;
   margin-right: auto;
+  margin-top: 370px;
+  position: fixed;
 }
 
 /*style form*/
